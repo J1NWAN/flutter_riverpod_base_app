@@ -1,0 +1,33 @@
+# Flutter & Dart
+.dart_tool/
+.packages
+pubspec.lock
+
+# Build outputs
+build/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Generated code & logs
+*.log
+
+# Platform-specific build artifacts
+android/.gradle/
+android/app/build/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/.idea/
+ios/Pods/
+ios/build/
+macos/Pods/
+macos/build/
+web/.dart_tool/
+windows/flutter/
+windows/.vs/
+windows/build/
+
+# Others
+.DS_Store
