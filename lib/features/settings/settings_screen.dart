@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod_base_app/core/formatters.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -102,6 +103,16 @@ class SettingsScreen extends ConsumerWidget {
                       Text('Input', style: theme.textTheme.titleMedium),
                       Gap(tokens.gapSmall),
                       const AppTextField(label: 'Label', hint: 'Placeholder'),
+                      Gap(tokens.gapSmall),
+                      Text(1234567.8.comma()),
+                      Gap(tokens.gapSmall),
+                      Text(DateTime(2024, 2, 3).ymd),
+                      Gap(tokens.gapSmall),
+                      Text(DateTime(2024, 2, 3, 9, 15).ymdHms),
+                      Gap(tokens.gapSmall),
+                      Text(DateTime(2024, 2, 3).ymdDot),
+                      Gap(tokens.gapSmall),
+                      Text(DateTime(2025, 2, 3).relativeFrom(DateTime.now())),
                     ],
                   ),
                 ),
