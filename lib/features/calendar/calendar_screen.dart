@@ -53,10 +53,7 @@ class CalendarScreen extends ConsumerWidget {
           padding: EdgeInsets.only(bottom: tokens.gapXLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppCalendar(events: events),
-              Gap(tokens.gapXLarge),
-            ],
+            children: [AppCalendar(events: events), Gap(tokens.gapXLarge)],
           ),
         ),
       ),
