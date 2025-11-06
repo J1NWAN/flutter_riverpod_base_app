@@ -5,30 +5,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../calendar/app_calendar.dart';
 import '../../providers/calendar_provider.dart';
-import '../../routes.dart';
 import '../../theme/tokens.dart';
 import '../../ui/scaffold.dart';
-
-const _destinations = [
-  AppDestination(
-    label: 'Dashboard',
-    icon: Icons.dashboard_outlined,
-    selectedIcon: Icons.dashboard,
-    route: AppRoutes.dashboard,
-  ),
-  AppDestination(
-    label: 'Calendar',
-    icon: Icons.event_note_outlined,
-    selectedIcon: Icons.event_note,
-    route: AppRoutes.calendar,
-  ),
-  AppDestination(
-    label: 'Settings',
-    icon: Icons.settings_outlined,
-    selectedIcon: Icons.settings,
-    route: AppRoutes.settings,
-  ),
-];
+import '../../ui/navigation/app_destinations.dart';
 
 class CalendarScreen extends ConsumerWidget {
   const CalendarScreen({super.key});
@@ -40,13 +19,13 @@ class CalendarScreen extends ConsumerWidget {
 
     return AppScaffold(
       title: 'Calendar',
-      destinations: _destinations,
+      destinations: appDestinations,
       currentIndex: 1,
       onDestinationSelected: (index) {
         if (index == 1) {
           return;
         }
-        context.go(_destinations[index].route);
+        context.go(appDestinations[index].route);
       },
       child: SingleChildScrollView(
         child: Padding(

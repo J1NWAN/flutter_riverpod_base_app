@@ -6,33 +6,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../chart/bar_chart.dart';
 import '../../chart/line_chart.dart';
-import '../../chart/chart_data.dart';
 import '../../providers/chart_provider.dart';
-import '../../routes.dart';
 import '../../theme/tokens.dart';
 import '../../ui/card.dart';
 import '../../ui/scaffold.dart';
-
-const _destinations = [
-  AppDestination(
-    label: 'Dashboard',
-    icon: Icons.dashboard_outlined,
-    selectedIcon: Icons.dashboard,
-    route: AppRoutes.dashboard,
-  ),
-  AppDestination(
-    label: 'Calendar',
-    icon: Icons.event_note_outlined,
-    selectedIcon: Icons.event_note,
-    route: AppRoutes.calendar,
-  ),
-  AppDestination(
-    label: 'Settings',
-    icon: Icons.settings_outlined,
-    selectedIcon: Icons.settings,
-    route: AppRoutes.settings,
-  ),
-];
+import '../../ui/navigation/app_destinations.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -44,13 +22,13 @@ class DashboardScreen extends ConsumerWidget {
 
     return AppScaffold(
       title: 'Dashboard',
-      destinations: _destinations,
+      destinations: appDestinations,
       currentIndex: 0,
       onDestinationSelected: (index) {
         if (index == 0) {
           return;
         }
-        context.go(_destinations[index].route);
+        context.go(appDestinations[index].route);
       },
       child: SingleChildScrollView(
         child: Column(

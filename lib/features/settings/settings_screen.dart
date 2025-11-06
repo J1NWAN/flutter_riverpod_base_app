@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_base_app/core/formatters.dart';
-import 'package:flutter_riverpod_base_app/ui/app_dialog.dart';
-import 'package:flutter_riverpod_base_app/ui/app_toast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/formatters.dart';
 import '../../providers/theme_provider.dart';
-import '../../routes.dart';
 import '../../theme/tokens.dart';
 import '../../ui/button.dart';
 import '../../ui/app_dialog.dart';
@@ -15,27 +12,7 @@ import '../../ui/app_toast.dart';
 import '../../ui/card.dart';
 import '../../ui/scaffold.dart';
 import '../../ui/text_field.dart';
-
-const _destinations = [
-  AppDestination(
-    label: 'Dashboard',
-    icon: Icons.dashboard_outlined,
-    selectedIcon: Icons.dashboard,
-    route: AppRoutes.dashboard,
-  ),
-  AppDestination(
-    label: 'Calendar',
-    icon: Icons.event_note_outlined,
-    selectedIcon: Icons.event_note,
-    route: AppRoutes.calendar,
-  ),
-  AppDestination(
-    label: 'Settings',
-    icon: Icons.settings_outlined,
-    selectedIcon: Icons.settings,
-    route: AppRoutes.settings,
-  ),
-];
+import '../../ui/navigation/app_destinations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -69,13 +46,13 @@ class SettingsScreen extends ConsumerWidget {
 
     return AppScaffold(
       title: 'Settings',
-      destinations: _destinations,
+      destinations: appDestinations,
       currentIndex: 2,
       onDestinationSelected: (index) {
         if (index == 2) {
           return;
         }
-        context.go(_destinations[index].route);
+        context.go(appDestinations[index].route);
       },
       child: ListView(
         padding: EdgeInsets.only(bottom: tokens.gapXLarge),
