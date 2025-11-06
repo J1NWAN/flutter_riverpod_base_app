@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/app_config.dart';
+import '../../core/app_config_provider.dart';
 import '../../core/formatters.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme/tokens.dart';
@@ -28,6 +30,7 @@ class SettingsScreen extends ConsumerWidget {
     );
 
     if (confirmed == true) {
+      if (!context.mounted) return;
       ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.system);
       await AppToast.show(
         context,
@@ -40,6 +43,8 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(appConfigProvider);
+    final configController = ref.read(appConfigProvider.notifier);
     final themeMode = ref.watch(themeControllerProvider);
     final tokens = Theme.of(context).extension<AppTokens>()!;
     final theme = Theme.of(context);
@@ -148,7 +153,7 @@ class SettingsScreen extends ConsumerWidget {
                               AppToast.show(
                                 context,
                                 message: '오류가 발생했습니다.',
-                                type: AppToastType.success,
+                                type: AppToastType.error,
                                 position: AppToastPosition.top,
                                 background: theme.colorScheme.error,
                                 foreground: theme.colorScheme.onError,
@@ -171,6 +176,69 @@ class SettingsScreen extends ConsumerWidget {
                       Text(DateTime(2024, 2, 3).ymdDot),
                       Gap(tokens.gapSmall),
                       Text(DateTime(2025, 2, 3).relativeFrom(DateTime.now())),
+                    ],
+                  ),
+                ),
+                Gap(tokens.gapXLarge),
+                Text('Environment', style: theme.textTheme.titleLarge),
+                Gap(tokens.gapMedium),
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Current flavor: ${config.flavor.name.toUpperCase()}',
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      Gap(tokens.gapSmall),
+                      Text(
+                        'Base URL: ${config.baseUrl}',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      Gap(tokens.gapSmall),
+                      Text(
+                        'Analytics: ${config.enableAnalytics ? 'Enabled' : 'Disabled'}',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      Gap(tokens.gapSmall),
+                      Text(
+                        'Beta feature: ${config.enableBetaFeature ? 'Enabled' : 'Disabled'}',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      Gap(tokens.gapLarge),
+                      Text(
+                        'Runtime override (development only)',
+                        style: theme.textTheme.labelMedium,
+                      ),
+                      Gap(tokens.gapSmall),
+                      Wrap(
+                        spacing: tokens.gapSmall,
+                        runSpacing: tokens.gapSmall,
+                        children: [
+                          AppButton.secondary(
+                            label: 'Dev',
+                            onPressed: () => configController.setFlavor(Flavor.dev),
+                          ),
+                          AppButton.secondary(
+                            label: 'Stage',
+                            onPressed: () => configController.setFlavor(Flavor.stage),
+                          ),
+                          AppButton.secondary(
+                            label: 'Prod',
+                            onPressed: () => configController.setFlavor(Flavor.prod),
+                          ),
+                          AppButton.text(
+                            label: config.enableAnalytics ? 'Disable Analytics' : 'Enable Analytics',
+                            onPressed: () =>
+                                configController.setAnalytics(!config.enableAnalytics),
+                          ),
+                          AppButton.text(
+                            label: config.enableBetaFeature ? 'Disable Beta' : 'Enable Beta',
+                            onPressed: () =>
+                                configController.setBeta(!config.enableBetaFeature),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

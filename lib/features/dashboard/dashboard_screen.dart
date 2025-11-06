@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../chart/bar_chart.dart';
 import '../../chart/line_chart.dart';
+import '../../core/app_config_provider.dart';
 import '../../providers/chart_provider.dart';
 import '../../theme/tokens.dart';
 import '../../ui/card.dart';
@@ -19,6 +20,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chartData = ref.watch(chartDataProvider);
     final tokens = Theme.of(context).extension<AppTokens>()!;
+    final config = ref.watch(appConfigProvider);
 
     return AppScaffold(
       title: 'Dashboard',
@@ -34,6 +36,33 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Environment',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Gap(tokens.gapSmall),
+                  Text(
+                    'Flavor: ${config.flavor.name.toUpperCase()}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Gap(tokens.gapSmall / 2),
+                  Text(
+                    'Base URL: ${config.baseUrl}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Gap(tokens.gapSmall / 2),
+                  Text(
+                    'Analytics: ${config.enableAnalytics ? 'Enabled' : 'Disabled'}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            Gap(tokens.gapLarge),
             Wrap(
               spacing: tokens.gapMedium,
               runSpacing: tokens.gapMedium,

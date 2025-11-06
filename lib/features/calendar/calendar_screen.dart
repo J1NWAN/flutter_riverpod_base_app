@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../calendar/app_calendar.dart';
+import '../../core/app_config_provider.dart';
 import '../../providers/calendar_provider.dart';
 import '../../theme/tokens.dart';
 import '../../ui/scaffold.dart';
@@ -16,6 +17,7 @@ class CalendarScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final events = ref.watch(calendarEventsProvider);
     final tokens = Theme.of(context).extension<AppTokens>()!;
+    final config = ref.watch(appConfigProvider);
 
     return AppScaffold(
       title: 'Calendar',
@@ -32,7 +34,15 @@ class CalendarScreen extends ConsumerWidget {
           padding: EdgeInsets.only(bottom: tokens.gapXLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [AppCalendar(events: events), Gap(tokens.gapXLarge)],
+            children: [
+              Text(
+                'Current API: ${config.baseUrl}',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              Gap(tokens.gapMedium),
+              AppCalendar(events: events),
+              Gap(tokens.gapXLarge),
+            ],
           ),
         ),
       ),
