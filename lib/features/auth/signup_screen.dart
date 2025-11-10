@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/forms/form_state.dart' as form;
+import '../../core/security/password_cipher.dart';
 import '../../core/validators.dart';
 import '../../routes.dart';
 import '../../theme/tokens.dart';
@@ -42,10 +43,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  '계정을 새로 만들어요 ✨',
-                  style: theme.textTheme.headlineSmall,
-                ),
+                Text('계정을 새로 만들어요 ✨', style: theme.textTheme.headlineSmall),
                 Gap(tokens.gapSmall),
                 Text(
                   '기본 정보를 입력하고 시작해 보세요.',
@@ -56,15 +54,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 Gap(tokens.gapXLarge),
                 FormFieldAdapter(
                   fieldKey: 'signupName',
-                  validator: (value) =>
-                      Validators.required(value) ?? Validators.minLength(value, 2),
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  validator:
+                      (value) =>
+                          Validators.required(value) ??
+                          Validators.minLength(value, 2),
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '이름',
@@ -77,15 +71,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 Gap(tokens.gapLarge),
                 FormFieldAdapter(
                   fieldKey: 'signupEmail',
-                  validator: (value) =>
-                      Validators.required(value) ?? Validators.email(value),
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  validator:
+                      (value) =>
+                          Validators.required(value) ?? Validators.email(value),
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '이메일',
@@ -99,15 +88,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 Gap(tokens.gapLarge),
                 FormFieldAdapter(
                   fieldKey: 'signupPassword',
-                  validator: (value) =>
-                      Validators.required(value) ?? Validators.minLength(value, 8),
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  validator:
+                      (value) =>
+                          Validators.required(value) ??
+                          Validators.minLength(value, 8),
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '비밀번호',
@@ -132,7 +117,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   fieldKey: 'signupConfirmPassword',
                   validator: (value) {
                     final password =
-                        ref.read(form.formProvider).fieldFor('signupPassword').value;
+                        ref
+                            .read(form.formProvider)
+                            .fieldFor('signupPassword')
+                            .value;
                     return Validators.required(value) ??
                         Validators.equals(
                           value,
@@ -140,13 +128,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           message: '비밀번호가 일치하지 않습니다.',
                         );
                   },
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '비밀번호 확인',
@@ -171,9 +153,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       return;
                     }
                     final name = controller.getValue('signupName');
+                    final password = PasswordCipher.hash(
+                      controller.getValue('signupPassword'),
+                    );
+
                     AppToast.show(
                       context,
-                      message: '$name 님, 가입이 완료되었습니다!',
+                      message: '$name 님, 가입이 완료되었습니다!\n(해시된 비밀번호: $password)',
                       type: AppToastType.success,
                     );
                   },
