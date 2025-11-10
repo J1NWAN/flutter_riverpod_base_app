@@ -25,6 +25,7 @@ class AppScaffold extends StatelessWidget {
     required this.child,
     this.floatingActionButton,
     this.showAppBar = true,
+    this.showNavigation = true,
     super.key,
   });
 
@@ -35,6 +36,7 @@ class AppScaffold extends StatelessWidget {
   final Widget child;
   final Widget? floatingActionButton;
   final bool showAppBar;
+  final bool showNavigation;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,8 @@ class AppScaffold extends StatelessWidget {
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final isDesktop = width >= tokens.breakpointDesktop;
-        final isTablet = width >= tokens.breakpointTablet &&
+        final isTablet =
+            width >= tokens.breakpointTablet &&
             width < tokens.breakpointDesktop;
 
         if (isDesktop) {
@@ -53,15 +56,16 @@ class AppScaffold extends StatelessWidget {
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
-                SizedBox(
-                  width: tokens.navigationRailWidth,
-                  child: _NavigationRailShell(
-                    destinations: destinations,
-                    currentIndex: currentIndex,
-                    onDestinationSelected: onDestinationSelected,
-                    extended: true,
+                if (showNavigation)
+                  SizedBox(
+                    width: tokens.navigationRailWidth,
+                    child: _NavigationRailShell(
+                      destinations: destinations,
+                      currentIndex: currentIndex,
+                      onDestinationSelected: onDestinationSelected,
+                      extended: true,
+                    ),
                   ),
-                ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(tokens.gapXLarge),
@@ -79,12 +83,13 @@ class AppScaffold extends StatelessWidget {
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
-                _NavigationRailShell(
-                  destinations: destinations,
-                  currentIndex: currentIndex,
-                  onDestinationSelected: onDestinationSelected,
-                  extended: false,
-                ),
+                if (showNavigation)
+                  _NavigationRailShell(
+                    destinations: destinations,
+                    currentIndex: currentIndex,
+                    onDestinationSelected: onDestinationSelected,
+                    extended: false,
+                  ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(tokens.gapLarge),
@@ -103,19 +108,23 @@ class AppScaffold extends StatelessWidget {
             padding: EdgeInsets.all(tokens.gapLarge),
             child: SafeArea(child: child),
           ),
-          bottomNavigationBar: NavigationBar(
-            selectedIndex: currentIndex,
-            onDestinationSelected: onDestinationSelected,
-            destinations: destinations
-                .map(
-                  (destination) => NavigationDestination(
-                    icon: Icon(destination.icon),
-                    selectedIcon: Icon(destination.selectedIcon),
-                    label: destination.label,
-                  ),
-                )
-                .toList(),
-          ),
+          bottomNavigationBar:
+              showNavigation
+                  ? NavigationBar(
+                    selectedIndex: currentIndex,
+                    onDestinationSelected: onDestinationSelected,
+                    destinations:
+                        destinations
+                            .map(
+                              (destination) => NavigationDestination(
+                                icon: Icon(destination.icon),
+                                selectedIcon: Icon(destination.selectedIcon),
+                                label: destination.label,
+                              ),
+                            )
+                            .toList(),
+                  )
+                  : null,
         );
       },
     );
@@ -140,17 +149,21 @@ class _NavigationRailShell extends StatelessWidget {
     return NavigationRail(
       selectedIndex: currentIndex,
       onDestinationSelected: onDestinationSelected,
-      labelType: extended ? NavigationRailLabelType.none : NavigationRailLabelType.selected,
+      labelType:
+          extended
+              ? NavigationRailLabelType.none
+              : NavigationRailLabelType.selected,
       extended: extended,
-      destinations: destinations
-          .map(
-            (destination) => NavigationRailDestination(
-              icon: Icon(destination.icon),
-              selectedIcon: Icon(destination.selectedIcon),
-              label: Text(destination.label),
-            ),
-          )
-          .toList(),
+      destinations:
+          destinations
+              .map(
+                (destination) => NavigationRailDestination(
+                  icon: Icon(destination.icon),
+                  selectedIcon: Icon(destination.selectedIcon),
+                  label: Text(destination.label),
+                ),
+              )
+              .toList(),
     );
   }
 }
