@@ -13,6 +13,7 @@ class AppTextField extends StatelessWidget {
     this.obscureText = false,
     this.onChanged,
     this.maxLines = 1,
+    this.errorText,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class AppTextField extends StatelessWidget {
   final bool obscureText;
   final ValueChanged<String>? onChanged;
   final int maxLines;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,9 @@ class AppTextField extends StatelessWidget {
         enabledBorder: border,
         focusedBorder: focusedBorder,
         filled: true,
-        fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+        fillColor:
+            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        errorText: errorText,
       ),
     );
   }
