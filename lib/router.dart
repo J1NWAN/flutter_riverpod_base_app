@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'features/auth/login_screen.dart';
+import 'features/auth/signup_screen.dart';
 import 'features/calendar/calendar_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -32,6 +33,16 @@ GoRouter goRouter(GoRouterRef ref) {
         path: AppRoutes.settings,
         name: 'settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.login,
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.signup,
+        name: 'signup',
+        builder: (context, state) => const SignUpScreen(),
       ),
     ],
   );

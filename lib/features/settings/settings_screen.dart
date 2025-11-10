@@ -7,6 +7,7 @@ import '../../core/app_config.dart';
 import '../../core/app_config_provider.dart';
 import '../../core/formatters.dart';
 import '../../providers/theme_provider.dart';
+import '../../routes.dart';
 import '../../theme/tokens.dart';
 import '../../ui/button.dart';
 import '../../ui/app_dialog.dart';
@@ -241,6 +242,23 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+                Gap(tokens.gapXLarge),
+                Text('계정', style: theme.textTheme.titleLarge),
+                Gap(tokens.gapMedium),
+                Wrap(
+                  spacing: tokens.gapSmall,
+                  runSpacing: tokens.gapSmall,
+                  children: [
+                    AppButton.primary(
+                      label: '로그인 화면 보기',
+                      onPressed: () => context.go(AppRoutes.login),
+                    ),
+                    AppButton.secondary(
+                      label: '회원가입 화면 보기',
+                      onPressed: () => context.go(AppRoutes.signup),
+                    ),
+                  ],
                 ),
               ],
             ),
