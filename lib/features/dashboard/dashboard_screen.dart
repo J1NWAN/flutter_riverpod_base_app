@@ -66,49 +66,50 @@ class DashboardScreen extends ConsumerWidget {
             Wrap(
               spacing: tokens.gapMedium,
               runSpacing: tokens.gapMedium,
-              children: [
-                _StatCard(
-                  title: 'Active Users',
-                  value: '1,240',
-                  trendLabel: '+12% vs last week',
-                ),
-                _StatCard(
-                  title: 'Conversion Rate',
-                  value: '3.4%',
-                  trendLabel: '+0.8% vs last month',
-                ),
-                _StatCard(
-                  title: 'Support Tickets',
-                  value: '32',
-                  trendLabel: '-5 open tickets',
-                ),
-              ]
-                  .animate(interval: tokens.fastAnimation)
-                  .fadeIn(duration: tokens.fastAnimation)
-                  .slideY(
-                    begin: 0.15,
-                    duration: tokens.normalAnimation,
-                    curve: Curves.easeOut,
-                  )
-                  .toList(),
+              children:
+                  [
+                        _StatCard(
+                          title: 'Active Users',
+                          value: '1,240',
+                          trendLabel: '+12% vs last week',
+                        ),
+                        _StatCard(
+                          title: 'Conversion Rate',
+                          value: '3.4%',
+                          trendLabel: '+0.8% vs last month',
+                        ),
+                        _StatCard(
+                          title: 'Support Tickets',
+                          value: '32',
+                          trendLabel: '-5 open tickets',
+                        ),
+                      ]
+                      .animate(interval: tokens.fastAnimation)
+                      .fadeIn(duration: tokens.fastAnimation)
+                      .slideY(
+                        begin: 0.15,
+                        duration: tokens.normalAnimation,
+                        curve: Curves.easeOut,
+                      )
+                      .toList(),
             ),
             Gap(tokens.gapXLarge),
             AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Performance Overview',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Performance Overview',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Gap(tokens.gapMedium),
+                      SizedBox(
+                        height: tokens.gapXLarge * 5,
+                        child: AppLineChart(data: chartData),
+                      ),
+                    ],
                   ),
-                  Gap(tokens.gapMedium),
-                  SizedBox(
-                    height: tokens.gapXLarge * 5,
-                    child: AppLineChart(data: chartData),
-                  ),
-                ],
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(duration: tokens.fastAnimation)
                 .slideY(
@@ -118,21 +119,21 @@ class DashboardScreen extends ConsumerWidget {
                 ),
             Gap(tokens.gapXLarge),
             AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Revenue Breakdown',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Revenue Breakdown',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Gap(tokens.gapMedium),
+                      SizedBox(
+                        height: tokens.gapXLarge * 5,
+                        child: AppBarChart(data: chartData),
+                      ),
+                    ],
                   ),
-                  Gap(tokens.gapMedium),
-                  SizedBox(
-                    height: tokens.gapXLarge * 5,
-                    child: AppBarChart(data: chartData),
-                  ),
-                ],
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(duration: tokens.fastAnimation)
                 .slideY(
@@ -171,15 +172,9 @@ class _StatCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: theme.textTheme.titleSmall,
-            ),
+            Text(title, style: theme.textTheme.titleSmall),
             Gap(tokens.gapSmall),
-            Text(
-              value,
-              style: theme.textTheme.headlineMedium,
-            ),
+            Text(value, style: theme.textTheme.headlineMedium),
             Gap(tokens.gapSmall),
             Text(
               trendLabel,

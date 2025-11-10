@@ -24,6 +24,7 @@ class AppScaffold extends StatelessWidget {
     required this.onDestinationSelected,
     required this.child,
     this.floatingActionButton,
+    this.showAppBar = true,
     super.key,
   });
 
@@ -33,6 +34,7 @@ class AppScaffold extends StatelessWidget {
   final ValueChanged<int> onDestinationSelected;
   final Widget child;
   final Widget? floatingActionButton;
+  final bool showAppBar;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +49,7 @@ class AppScaffold extends StatelessWidget {
 
         if (isDesktop) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
+            appBar: showAppBar ? AppBar(title: Text(title)) : null,
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -75,9 +75,7 @@ class AppScaffold extends StatelessWidget {
 
         if (isTablet) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
+            appBar: showAppBar ? AppBar(title: Text(title)) : null,
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -99,9 +97,7 @@ class AppScaffold extends StatelessWidget {
         }
 
         return Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-          ),
+          appBar: showAppBar ? AppBar(title: Text(title)) : null,
           floatingActionButton: floatingActionButton,
           body: Padding(
             padding: EdgeInsets.all(tokens.gapLarge),
