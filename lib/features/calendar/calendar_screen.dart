@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../calendar/app_calendar.dart';
 import '../../core/app_config_provider.dart';
 import '../../providers/calendar_provider.dart';
-import '../../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 import '../../ui/scaffold.dart';
 import '../../ui/navigation/app_destinations.dart';
 

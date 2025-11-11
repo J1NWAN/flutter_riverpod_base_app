@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 
 enum AppButtonVariant { primary, secondary, text, danger }
 
@@ -105,7 +105,10 @@ class AppButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final padding = EdgeInsets.symmetric(horizontal: tokens.gapLarge, vertical: tokens.gapSmall * 0.75);
+    final padding = EdgeInsets.symmetric(
+      horizontal: tokens.gapLarge,
+      vertical: tokens.gapSmall * 0.75,
+    );
 
     Color? effectiveBackground = backgroundColor;
     Color? effectiveForeground = foregroundColor;
@@ -126,10 +129,20 @@ class AppButton extends StatelessWidget {
     }
 
     if (effectiveForeground != null && effectiveTextStyle != null) {
-      effectiveTextStyle = effectiveTextStyle.copyWith(color: effectiveForeground);
+      effectiveTextStyle = effectiveTextStyle.copyWith(
+        color: effectiveForeground,
+      );
     }
 
-    final icon = leadingIcon != null ? Icon(leadingIcon, size: effectiveTextStyle?.fontSize ?? textTheme.labelLarge?.fontSize) : null;
+    final icon =
+        leadingIcon != null
+            ? Icon(
+              leadingIcon,
+              size:
+                  effectiveTextStyle?.fontSize ??
+                  textTheme.labelLarge?.fontSize,
+            )
+            : null;
 
     Widget child = Row(
       mainAxisSize: MainAxisSize.min,
@@ -140,7 +153,10 @@ class AppButton extends StatelessWidget {
     );
 
     if (effectiveForeground != null) {
-      child = IconTheme.merge(data: IconThemeData(color: effectiveForeground), child: child);
+      child = IconTheme.merge(
+        data: IconThemeData(color: effectiveForeground),
+        child: child,
+      );
     }
 
     if (effectiveTextStyle != null) {
@@ -149,11 +165,15 @@ class AppButton extends StatelessWidget {
 
     ButtonStyle style = ButtonStyle(
       padding: WidgetStatePropertyAll(padding),
-      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: tokens.radiusMedium)),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: tokens.radiusMedium),
+      ),
     );
 
     if (effectiveBackground != null) {
-      style = style.copyWith(backgroundColor: WidgetStatePropertyAll(effectiveBackground));
+      style = style.copyWith(
+        backgroundColor: WidgetStatePropertyAll(effectiveBackground),
+      );
     }
 
     if (effectiveForeground != null) {
@@ -164,14 +184,20 @@ class AppButton extends StatelessWidget {
     }
 
     if (effectiveTextStyle != null) {
-      style = style.copyWith(textStyle: WidgetStatePropertyAll(effectiveTextStyle));
+      style = style.copyWith(
+        textStyle: WidgetStatePropertyAll(effectiveTextStyle),
+      );
     }
 
     switch (variant) {
       case AppButtonVariant.primary:
         return FilledButton(onPressed: onPressed, style: style, child: child);
       case AppButtonVariant.secondary:
-        return FilledButton.tonal(onPressed: onPressed, style: style, child: child);
+        return FilledButton.tonal(
+          onPressed: onPressed,
+          style: style,
+          child: child,
+        );
       case AppButtonVariant.text:
         return TextButton(onPressed: onPressed, style: style, child: child);
       case AppButtonVariant.danger:

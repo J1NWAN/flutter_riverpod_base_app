@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/forms/form_state.dart' as form;
 import '../../core/validators.dart';
 import '../../routes.dart';
-import '../../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 import '../../ui/app_toast.dart';
 import '../../ui/button.dart';
 import '../../ui/forms/form_field_adapter.dart';
@@ -42,10 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  '다시 만나 반가워요 👋',
-                  style: theme.textTheme.headlineSmall,
-                ),
+                Text('다시 만나 반가워요 👋', style: theme.textTheme.headlineSmall),
                 Gap(tokens.gapSmall),
                 Text(
                   '등록된 계정으로 로그인해 주세요.',
@@ -56,15 +53,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Gap(tokens.gapXLarge),
                 FormFieldAdapter(
                   fieldKey: 'loginEmail',
-                  validator: (value) =>
-                      Validators.required(value) ?? Validators.email(value),
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  validator:
+                      (value) =>
+                          Validators.required(value) ?? Validators.email(value),
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '이메일',
@@ -78,15 +70,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Gap(tokens.gapLarge),
                 FormFieldAdapter(
                   fieldKey: 'loginPassword',
-                  validator: (value) =>
-                      Validators.required(value) ?? Validators.minLength(value, 8),
-                  builder: (
-                    context,
-                    value,
-                    error,
-                    onChanged,
-                    controller,
-                  ) {
+                  validator:
+                      (value) =>
+                          Validators.required(value) ??
+                          Validators.minLength(value, 8),
+                  builder: (context, value, error, onChanged, controller) {
                     return AppTextField(
                       controller: controller,
                       label: '비밀번호',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// 앱 공통 디자인 토큰. radius/gap/breakpoint 등을 ThemeExtension으로 제공한다.
 @immutable
 class AppTokens extends ThemeExtension<AppTokens> {
   final BorderRadius radiusSmall;
@@ -64,6 +65,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
         cardElevation: 4,
       );
 
+  double get padding => gapLarge;
+  double get spacing => gapMedium;
+
   @override
   AppTokens copyWith({
     BorderRadius? radiusSmall,
@@ -98,40 +102,35 @@ class AppTokens extends ThemeExtension<AppTokens> {
   }
 
   @override
-  AppTokens lerp(AppTokens? other, double t) {
-    if (other == null) {
-      return this;
-    }
+  AppTokens lerp(ThemeExtension<AppTokens>? other, double t) {
+    if (other is! AppTokens) return this;
     return AppTokens(
       radiusSmall: BorderRadius.lerp(radiusSmall, other.radiusSmall, t)!,
       radiusMedium: BorderRadius.lerp(radiusMedium, other.radiusMedium, t)!,
       radiusLarge: BorderRadius.lerp(radiusLarge, other.radiusLarge, t)!,
-      gapSmall: gapSmall + (other.gapSmall - gapSmall) * t,
-      gapMedium: gapMedium + (other.gapMedium - gapMedium) * t,
-      gapLarge: gapLarge + (other.gapLarge - gapLarge) * t,
-      gapXLarge: gapXLarge + (other.gapXLarge - gapXLarge) * t,
-      fastAnimation: Duration(
-        milliseconds: (fastAnimation.inMilliseconds +
-                (other.fastAnimation.inMilliseconds -
-                        fastAnimation.inMilliseconds) *
-                    t)
-            .round(),
-      ),
-      normalAnimation: Duration(
-        milliseconds: (normalAnimation.inMilliseconds +
-                (other.normalAnimation.inMilliseconds -
-                        normalAnimation.inMilliseconds) *
-                    t)
-            .round(),
-      ),
-      breakpointTablet: breakpointTablet +
-          (other.breakpointTablet - breakpointTablet) * t,
-      breakpointDesktop: breakpointDesktop +
-          (other.breakpointDesktop - breakpointDesktop) * t,
-      navigationRailWidth: navigationRailWidth +
-          (other.navigationRailWidth - navigationRailWidth) * t,
-      cardElevation:
-          cardElevation + (other.cardElevation - cardElevation) * t,
+      gapSmall: _lerpDouble(gapSmall, other.gapSmall, t),
+      gapMedium: _lerpDouble(gapMedium, other.gapMedium, t),
+      gapLarge: _lerpDouble(gapLarge, other.gapLarge, t),
+      gapXLarge: _lerpDouble(gapXLarge, other.gapXLarge, t),
+      fastAnimation: _lerpDuration(fastAnimation, other.fastAnimation, t),
+      normalAnimation: _lerpDuration(normalAnimation, other.normalAnimation, t),
+      breakpointTablet: _lerpDouble(breakpointTablet, other.breakpointTablet, t),
+      breakpointDesktop:
+          _lerpDouble(breakpointDesktop, other.breakpointDesktop, t),
+      navigationRailWidth:
+          _lerpDouble(navigationRailWidth, other.navigationRailWidth, t),
+      cardElevation: _lerpDouble(cardElevation, other.cardElevation, t),
+    );
+  }
+
+  static double _lerpDouble(double a, double b, double t) =>
+      a + (b - a) * t;
+
+  static Duration _lerpDuration(Duration a, Duration b, double t) {
+    return Duration(
+      milliseconds: (a.inMilliseconds +
+              (b.inMilliseconds - a.inMilliseconds) * t)
+          .round(),
     );
   }
 }

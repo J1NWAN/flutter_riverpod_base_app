@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({
@@ -35,18 +35,12 @@ class AppTextField extends StatelessWidget {
 
     final border = OutlineInputBorder(
       borderRadius: tokens.radiusMedium,
-      borderSide: BorderSide(
-        color: theme.colorScheme.outlineVariant,
-        width: 1,
-      ),
+      borderSide: BorderSide(color: theme.colorScheme.outlineVariant, width: 1),
     );
 
     final focusedBorder = OutlineInputBorder(
       borderRadius: tokens.radiusMedium,
-      borderSide: BorderSide(
-        color: theme.colorScheme.primary,
-        width: 2,
-      ),
+      borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
     );
 
     return TextField(
@@ -68,8 +62,9 @@ class AppTextField extends StatelessWidget {
         enabledBorder: border,
         focusedBorder: focusedBorder,
         filled: true,
-        fillColor:
-            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
+          alpha: 0.3,
+        ),
         errorText: errorText,
       ),
     );

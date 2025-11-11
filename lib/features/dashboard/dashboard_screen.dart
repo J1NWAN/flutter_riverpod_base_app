@@ -8,7 +8,7 @@ import '../../chart/bar_chart.dart';
 import '../../chart/line_chart.dart';
 import '../../core/app_config_provider.dart';
 import '../../providers/chart_provider.dart';
-import '../../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 import '../../ui/card.dart';
 import '../../ui/scaffold.dart';
 import '../../ui/navigation/app_destinations.dart';

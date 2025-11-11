@@ -8,7 +8,7 @@ import '../../core/app_config_provider.dart';
 import '../../core/formatters.dart';
 import '../../providers/theme_provider.dart';
 import '../../routes.dart';
-import '../../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 import '../../ui/button.dart';
 import '../../ui/app_dialog.dart';
 import '../../ui/app_toast.dart';
@@ -32,7 +32,7 @@ class SettingsScreen extends ConsumerWidget {
 
     if (confirmed == true) {
       if (!context.mounted) return;
-      ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.system);
+      ref.read(themeControllerProvider.notifier).setMode(ThemeMode.system);
       await AppToast.show(
         context,
         message: '시스템 테마로 되돌렸어요.',
@@ -46,7 +46,8 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(appConfigProvider);
     final configController = ref.read(appConfigProvider.notifier);
-    final themeMode = ref.watch(themeControllerProvider);
+    final themeState = ref.watch(themeControllerProvider);
+    final themeMode = themeState.mode;
     final tokens = Theme.of(context).extension<AppTokens>()!;
     final theme = Theme.of(context);
 
@@ -99,9 +100,7 @@ class SettingsScreen extends ConsumerWidget {
                   selected: {themeMode},
                   onSelectionChanged: (selection) {
                     final mode = selection.first;
-                    ref
-                        .read(themeControllerProvider.notifier)
-                        .setThemeMode(mode);
+                    ref.read(themeControllerProvider.notifier).setMode(mode);
                   },
                 ),
                 Gap(tokens.gapXLarge),
@@ -218,25 +217,38 @@ class SettingsScreen extends ConsumerWidget {
                         children: [
                           AppButton.secondary(
                             label: 'Dev',
-                            onPressed: () => configController.setFlavor(Flavor.dev),
+                            onPressed:
+                                () => configController.setFlavor(Flavor.dev),
                           ),
                           AppButton.secondary(
                             label: 'Stage',
-                            onPressed: () => configController.setFlavor(Flavor.stage),
+                            onPressed:
+                                () => configController.setFlavor(Flavor.stage),
                           ),
                           AppButton.secondary(
                             label: 'Prod',
-                            onPressed: () => configController.setFlavor(Flavor.prod),
+                            onPressed:
+                                () => configController.setFlavor(Flavor.prod),
                           ),
                           AppButton.text(
-                            label: config.enableAnalytics ? 'Disable Analytics' : 'Enable Analytics',
-                            onPressed: () =>
-                                configController.setAnalytics(!config.enableAnalytics),
+                            label:
+                                config.enableAnalytics
+                                    ? 'Disable Analytics'
+                                    : 'Enable Analytics',
+                            onPressed:
+                                () => configController.setAnalytics(
+                                  !config.enableAnalytics,
+                                ),
                           ),
                           AppButton.text(
-                            label: config.enableBetaFeature ? 'Disable Beta' : 'Enable Beta',
-                            onPressed: () =>
-                                configController.setBeta(!config.enableBetaFeature),
+                            label:
+                                config.enableBetaFeature
+                                    ? 'Disable Beta'
+                                    : 'Enable Beta',
+                            onPressed:
+                                () => configController.setBeta(
+                                  !config.enableBetaFeature,
+                                ),
                           ),
                         ],
                       ),
@@ -252,6 +264,8 @@ class SettingsScreen extends ConsumerWidget {
                   children: [
                     AppButton.primary(
                       label: '로그인 화면 보기',
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
                       onPressed: () => context.go(AppRoutes.login),
                     ),
                     AppButton.secondary(

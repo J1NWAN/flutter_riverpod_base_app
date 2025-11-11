@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 
 class AppCard extends StatelessWidget {
-  const AppCard({
-    required this.child,
-    this.padding,
-    this.margin,
-    super.key,
-  });
+  const AppCard({required this.child, this.padding, this.margin, super.key});
 
   final Widget child;
   final EdgeInsetsGeometry? padding;

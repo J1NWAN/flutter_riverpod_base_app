@@ -7,7 +7,7 @@ import '../../app/forms/form_state.dart' as form;
 import '../../core/security/password_cipher.dart';
 import '../../core/validators.dart';
 import '../../routes.dart';
-import '../../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 import '../../ui/app_toast.dart';
 import '../../ui/button.dart';
 import '../../ui/forms/form_field_adapter.dart';

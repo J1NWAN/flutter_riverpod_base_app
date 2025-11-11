@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/tokens.dart';
+import '../../core/token/app_tokens.dart';
 
 class AppDestination {
   const AppDestination({
