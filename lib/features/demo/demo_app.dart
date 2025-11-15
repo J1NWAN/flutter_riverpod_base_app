@@ -26,7 +26,7 @@ class DemoApp extends ConsumerWidget {
 }
 
 class _Home extends ConsumerWidget {
-  const _Home({super.key});
+  const _Home();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +49,7 @@ class _Home extends ConsumerWidget {
                 Colors.blueGrey,
               ];
               final currentIndex = seeds.indexWhere(
-                (color) => color.value == state.seed.value,
+                (color) => color == state.seed,
               );
               final nextIndex =
                   currentIndex == -1 ? 0 : (currentIndex + 1) % seeds.length;
