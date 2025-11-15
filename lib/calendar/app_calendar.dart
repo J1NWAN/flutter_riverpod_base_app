@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../theme/tokens.dart';
+import '../core/token/app_tokens.dart';
 import 'calendar_event.dart';
 
 class AppCalendar extends StatefulWidget {
-  const AppCalendar({
-    required this.events,
-    super.key,
-  });
+  const AppCalendar({required this.events, super.key});
 
   final Map<DateTime, List<CalendarEvent>> events;
 
@@ -31,8 +28,9 @@ class _AppCalendarState extends State<AppCalendar> {
     _selectedDay = DateUtils.dateOnly(_focusedDay);
     _eventMap = LinkedHashMap<DateTime, List<CalendarEvent>>(
       equals: isSameDay,
-      hashCode: (date) =>
-          DateTime(date.year, date.month, date.day).millisecondsSinceEpoch,
+      hashCode:
+          (date) =>
+              DateTime(date.year, date.month, date.day).millisecondsSinceEpoch,
     );
 
     widget.events.forEach((key, value) {
@@ -53,7 +51,9 @@ class _AppCalendarState extends State<AppCalendar> {
     final textTheme = theme.textTheme;
 
     final selectedEvents =
-        _selectedDay != null ? _eventsForDay(_selectedDay!) : const <CalendarEvent>[];
+        _selectedDay != null
+            ? _eventsForDay(_selectedDay!)
+            : const <CalendarEvent>[];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,14 +76,8 @@ class _AppCalendarState extends State<AppCalendar> {
             titleCentered: true,
             formatButtonVisible: false,
             titleTextStyle: textTheme.titleMedium!,
-            leftChevronIcon: Icon(
-              Icons.chevron_left,
-              size: tokens.gapLarge,
-            ),
-            rightChevronIcon: Icon(
-              Icons.chevron_right,
-              size: tokens.gapLarge,
-            ),
+            leftChevronIcon: Icon(Icons.chevron_left, size: tokens.gapLarge),
+            rightChevronIcon: Icon(Icons.chevron_right, size: tokens.gapLarge),
           ),
           calendarStyle: CalendarStyle(
             outsideDaysVisible: false,
@@ -116,41 +110,36 @@ class _AppCalendarState extends State<AppCalendar> {
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   spacing: tokens.gapSmall / 2,
-                  children: events
-                      .take(3)
-                      .map(
-                        (event) => Container(
-                          width: tokens.gapSmall,
-                          height: tokens.gapSmall,
-                          decoration: BoxDecoration(
-                            color: event.color,
-                            borderRadius: tokens.radiusSmall,
-                          ),
-                        ),
-                      )
-                      .toList(),
+                  children:
+                      events
+                          .take(3)
+                          .map(
+                            (event) => Container(
+                              width: tokens.gapSmall,
+                              height: tokens.gapSmall,
+                              decoration: BoxDecoration(
+                                color: event.color,
+                                borderRadius: tokens.radiusSmall,
+                              ),
+                            ),
+                          )
+                          .toList(),
                 ),
               );
             },
           ),
         ),
         Gap(tokens.gapLarge),
-        Text(
-          'Events',
-          style: textTheme.titleMedium,
-        ),
+        Text('Events', style: textTheme.titleMedium),
         Gap(tokens.gapMedium),
         if (selectedEvents.isEmpty)
           Container(
             padding: EdgeInsets.all(tokens.gapLarge),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant.withOpacity(0.4),
+              color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.4),
               borderRadius: tokens.radiusMedium,
             ),
-            child: Text(
-              'No events scheduled.',
-              style: textTheme.bodyMedium,
-            ),
+            child: Text('No events scheduled.', style: textTheme.bodyMedium),
           )
         else
           ...selectedEvents.map(
@@ -164,10 +153,7 @@ class _AppCalendarState extends State<AppCalendar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    event.title,
-                    style: textTheme.titleSmall,
-                  ),
+                  Text(event.title, style: textTheme.titleSmall),
                   Gap(tokens.gapSmall / 2),
                   Text(
                     '${TimeOfDay.fromDateTime(event.start).format(context)} - ${TimeOfDay.fromDateTime(event.end).format(context)}',

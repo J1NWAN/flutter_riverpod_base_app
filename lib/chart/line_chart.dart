@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/tokens.dart';
+import '../core/token/app_tokens.dart';
 import 'chart_data.dart';
 
 class AppLineChart extends StatelessWidget {
@@ -19,7 +19,10 @@ class AppLineChart extends StatelessWidget {
         data.lineSeries
             .map(
               (series) => LineChartBarData(
-                spots: [for (var index = 0; index < series.values.length; index++) FlSpot(index.toDouble(), series.values[index])],
+                spots: [
+                  for (var index = 0; index < series.values.length; index++)
+                    FlSpot(index.toDouble(), series.values[index]),
+                ],
                 isCurved: series.curved,
                 color: series.color,
                 barWidth: series.strokeWidth,
@@ -27,7 +30,10 @@ class AppLineChart extends StatelessWidget {
                 belowBarData: BarAreaData(
                   show: true,
                   gradient: LinearGradient(
-                    colors: [series.color.withOpacity(0.2), series.color.withOpacity(0.05)],
+                    colors: [
+                      series.color.withOpacity(0.2),
+                      series.color.withOpacity(0.05),
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -45,7 +51,11 @@ class AppLineChart extends StatelessWidget {
           show: true,
           horizontalInterval: tokens.gapMedium,
           drawVerticalLine: false,
-          getDrawingHorizontalLine: (value) => FlLine(color: theme.colorScheme.outlineVariant.withOpacity(0.3), strokeWidth: 1),
+          getDrawingHorizontalLine:
+              (value) => FlLine(
+                color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+                strokeWidth: 1,
+              ),
         ),
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
@@ -59,7 +69,10 @@ class AppLineChart extends StatelessWidget {
                 }
                 return Padding(
                   padding: EdgeInsets.only(top: tokens.gapSmall),
-                  child: Text(data.xAxisLabels[index], style: textTheme.labelMedium),
+                  child: Text(
+                    data.xAxisLabels[index],
+                    style: textTheme.labelMedium,
+                  ),
                 );
               },
             ),
@@ -71,18 +84,31 @@ class AppLineChart extends StatelessWidget {
               getTitlesWidget:
                   (value, meta) => Padding(
                     padding: EdgeInsets.only(right: tokens.gapSmall),
-                    child: Text(value.toStringAsFixed(0), style: textTheme.labelMedium),
+                    child: Text(
+                      value.toStringAsFixed(0),
+                      style: textTheme.labelMedium,
+                    ),
                   ),
             ),
           ),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         borderData: FlBorderData(
           show: true,
           border: Border(
-            bottom: BorderSide(color: theme.colorScheme.outlineVariant.withOpacity(0.4), width: 1.5),
-            left: BorderSide(color: theme.colorScheme.outlineVariant.withOpacity(0.4), width: 1.5),
+            bottom: BorderSide(
+              color: theme.colorScheme.outlineVariant.withOpacity(0.4),
+              width: 1.5,
+            ),
+            left: BorderSide(
+              color: theme.colorScheme.outlineVariant.withOpacity(0.4),
+              width: 1.5,
+            ),
             top: BorderSide.none,
             right: BorderSide.none,
           ),
@@ -91,20 +117,22 @@ class AppLineChart extends StatelessWidget {
           touchTooltipData: LineTouchTooltipData(
             tooltipRoundedRadius: tokens.radiusSmall.topLeft.x,
             tooltipPadding: EdgeInsets.all(tokens.gapSmall),
-            getTooltipColor: (spot) =>
-                theme.colorScheme.surface.withOpacity(0.9),
+            getTooltipColor:
+                (spot) => theme.colorScheme.surface.withOpacity(0.9),
             tooltipBorder: BorderSide(
               color: theme.colorScheme.outlineVariant.withOpacity(0.3),
             ),
-            getTooltipItems: (spots) => spots
-                .map(
-                  (spot) => LineTooltipItem(
-                    '${data.xAxisLabels[spot.x.toInt()]}: ${spot.y.toStringAsFixed(1)}',
-                    textTheme.bodyMedium!,
-                    textAlign: TextAlign.left,
-                  ),
-                )
-                .toList(),
+            getTooltipItems:
+                (spots) =>
+                    spots
+                        .map(
+                          (spot) => LineTooltipItem(
+                            '${data.xAxisLabels[spot.x.toInt()]}: ${spot.y.toStringAsFixed(1)}',
+                            textTheme.bodyMedium!,
+                            textAlign: TextAlign.left,
+                          ),
+                        )
+                        .toList(),
           ),
         ),
       ),
