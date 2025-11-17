@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/token/app_tokens.dart';
+import '../../ui/appbar/app_top_bar.dart';
 
 class AppDestination {
   const AppDestination({
@@ -26,6 +27,10 @@ class AppScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.showAppBar = true,
     this.showNavigation = true,
+    this.appBarActions,
+    this.leading,
+    this.centerTitle = false,
+    this.bottom,
     super.key,
   });
 
@@ -37,6 +42,10 @@ class AppScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final bool showAppBar;
   final bool showNavigation;
+  final List<Widget>? appBarActions;
+  final Widget? leading;
+  final bool centerTitle;
+  final PreferredSizeWidget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,16 @@ class AppScaffold extends StatelessWidget {
 
         if (isDesktop) {
           return Scaffold(
-            appBar: showAppBar ? AppBar(title: Text(title)) : null,
+            appBar:
+                showAppBar
+                    ? AppTopBar(
+                      centerTitle: centerTitle,
+                      leading: leading,
+                      title: title,
+                      actions: appBarActions,
+                      bottom: bottom,
+                    )
+                    : null,
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -79,7 +97,16 @@ class AppScaffold extends StatelessWidget {
 
         if (isTablet) {
           return Scaffold(
-            appBar: showAppBar ? AppBar(title: Text(title)) : null,
+            appBar:
+                showAppBar
+                    ? AppTopBar(
+                      centerTitle: centerTitle,
+                      leading: leading,
+                      title: title,
+                      actions: appBarActions,
+                      bottom: bottom,
+                    )
+                    : null,
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -102,7 +129,16 @@ class AppScaffold extends StatelessWidget {
         }
 
         return Scaffold(
-          appBar: showAppBar ? AppBar(title: Text(title)) : null,
+          appBar:
+              showAppBar
+                  ? AppTopBar(
+                    centerTitle: centerTitle,
+                    leading: leading,
+                    title: title,
+                    actions: appBarActions,
+                    bottom: bottom,
+                  )
+                  : null,
           floatingActionButton: floatingActionButton,
           body: Padding(
             padding: EdgeInsets.all(tokens.gapLarge),
