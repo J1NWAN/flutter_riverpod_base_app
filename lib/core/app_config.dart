@@ -35,7 +35,7 @@ class AppConfig {
   factory AppConfig.dev() => const AppConfig(
     flavor: Flavor.dev,
     appName: 'Flutter Base (Dev)',
-    baseUrl: 'https://dev.api.example.com',
+    baseUrl: 'https://cece2bee-5679-4c18-819c-4d8fdbbd3189.mock.pstmn.io',
     enableAnalytics: false,
     enableBetaFeature: true,
   );
@@ -64,7 +64,8 @@ class AppConfig {
       ),
       baseUrl = const String.fromEnvironment(
         'BASE_URL',
-        defaultValue: 'https://dev.api.example.com',
+        defaultValue:
+            'https://cece2bee-5679-4c18-819c-4d8fdbbd3189.mock.pstmn.io',
       ),
       enableAnalytics = const bool.fromEnvironment(
         'ENABLE_ANALYTICS',
