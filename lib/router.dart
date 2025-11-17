@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod_base_app/features/component/component_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,6 +8,7 @@ import 'features/auth/signup_screen.dart';
 import 'features/calendar/calendar_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/main/main_screen.dart';
 import 'routes.dart';
 
 part 'router.g.dart';
@@ -17,8 +19,13 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.dashboard,
+    initialLocation: AppRoutes.login,
     routes: [
+      GoRoute(
+        path: AppRoutes.main,
+        name: 'main',
+        builder: (context, state) => const MainScreen(),
+      ),
       GoRoute(
         path: AppRoutes.dashboard,
         name: 'dashboard',
@@ -28,6 +35,11 @@ GoRouter goRouter(GoRouterRef ref) {
         path: AppRoutes.calendar,
         name: 'calendar',
         builder: (context, state) => const CalendarScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.component,
+        name: 'component',
+        builder: (context, state) => const ComponentScreen(),
       ),
       GoRoute(
         path: AppRoutes.settings,

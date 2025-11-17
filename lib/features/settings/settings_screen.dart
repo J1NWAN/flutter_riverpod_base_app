@@ -54,9 +54,9 @@ class SettingsScreen extends ConsumerWidget {
     return AppScaffold(
       title: 'Settings',
       destinations: appDestinations,
-      currentIndex: 2,
+      currentIndex: 4,
       onDestinationSelected: (index) {
-        if (index == 2) {
+        if (index == 4) {
           return;
         }
         context.go(appDestinations[index].route);

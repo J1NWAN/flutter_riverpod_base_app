@@ -5,6 +5,12 @@ import '../../routes.dart';
 
 const List<AppDestination> appDestinations = [
   AppDestination(
+    label: 'Main',
+    icon: Icons.home_outlined,
+    selectedIcon: Icons.home,
+    route: AppRoutes.main,
+  ),
+  AppDestination(
     label: 'Dashboard',
     icon: Icons.dashboard_outlined,
     selectedIcon: Icons.dashboard,
@@ -17,9 +23,9 @@ const List<AppDestination> appDestinations = [
     route: AppRoutes.calendar,
   ),
   AppDestination(
-    label: 'Settings',
-    icon: Icons.settings_outlined,
-    selectedIcon: Icons.settings,
-    route: AppRoutes.settings,
+    label: 'Component',
+    icon: Icons.copy_outlined,
+    selectedIcon: Icons.copy,
+    route: AppRoutes.component,
   ),
 ];

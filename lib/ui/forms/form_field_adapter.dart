@@ -97,12 +97,16 @@ class _FormFieldAdapterState extends ConsumerState<FormFieldAdapter> {
         text: value,
         selection: TextSelection.collapsed(offset: value.length),
       );
-      ref.read(form.formProvider.notifier).setInitial(widget.fieldKey, value);
+      Future.microtask(() {
+        ref.read(form.formProvider.notifier).setInitial(widget.fieldKey, value);
+      });
     }
     if (widget.validator != oldWidget.validator && widget.validator != null) {
-      ref
-          .read(form.formProvider.notifier)
-          .registerValidator(widget.fieldKey, widget.validator!);
+      Future.microtask(() {
+        ref
+            .read(form.formProvider.notifier)
+            .registerValidator(widget.fieldKey, widget.validator!);
+      });
     }
   }
 

@@ -25,9 +25,9 @@ class DashboardScreen extends ConsumerWidget {
     return AppScaffold(
       title: 'Dashboard',
       destinations: appDestinations,
-      currentIndex: 0,
+      currentIndex: 1,
       onDestinationSelected: (index) {
-        if (index == 0) {
+        if (index == 1) {
           return;
         }
         context.go(appDestinations[index].route);

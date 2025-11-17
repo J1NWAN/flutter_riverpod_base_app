@@ -22,9 +22,9 @@ class CalendarScreen extends ConsumerWidget {
     return AppScaffold(
       title: 'Calendar',
       destinations: appDestinations,
-      currentIndex: 1,
+      currentIndex: 2,
       onDestinationSelected: (index) {
-        if (index == 1) {
+        if (index == 2) {
           return;
         }
         context.go(appDestinations[index].route);

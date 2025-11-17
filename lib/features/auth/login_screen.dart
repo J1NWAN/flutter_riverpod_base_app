@@ -42,7 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('다시 만나 반가워요 👋', style: theme.textTheme.headlineSmall),
+                Text('Riverpod Base App', style: theme.textTheme.headlineSmall),
                 Gap(tokens.gapSmall),
                 Text(
                   '등록된 계정으로 로그인해 주세요.',
@@ -86,8 +86,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 Gap(tokens.gapLarge),
                 AppButton.primary(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
                   label: '로그인',
                   onPressed: () {
+                    context.go(AppRoutes.main);
                     final controller = ref.read(form.formProvider.notifier);
                     final isValid = controller.validateAll();
                     if (!isValid) {
