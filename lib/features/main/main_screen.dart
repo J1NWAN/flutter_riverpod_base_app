@@ -17,7 +17,7 @@ class MainScreen extends ConsumerWidget {
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            context.go('/settings');
+            context.push('/settings');
           },
         ),
       ],

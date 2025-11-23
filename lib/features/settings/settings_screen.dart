@@ -54,13 +54,9 @@ class SettingsScreen extends ConsumerWidget {
     return AppScaffold(
       title: 'Settings',
       destinations: appDestinations,
-      currentIndex: 4,
-      onDestinationSelected: (index) {
-        if (index == 4) {
-          return;
-        }
-        context.go(appDestinations[index].route);
-      },
+      currentIndex: 0,
+      showNavigation: false,
+      onDestinationSelected: (_) {},
       child: ListView(
         padding: EdgeInsets.only(bottom: tokens.gapXLarge),
         children: [
