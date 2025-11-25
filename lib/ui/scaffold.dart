@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/token/app_tokens.dart';
 import '../../ui/appbar/app_top_bar.dart';
@@ -31,6 +32,8 @@ class AppScaffold extends StatelessWidget {
     this.leading,
     this.centerTitle = false,
     this.bottom,
+    this.showDefaultSearchAction = true,
+    this.showDefaultSettingsAction = true,
     super.key,
   });
 
@@ -46,6 +49,8 @@ class AppScaffold extends StatelessWidget {
   final Widget? leading;
   final bool centerTitle;
   final PreferredSizeWidget? bottom;
+  final bool showDefaultSearchAction;
+  final bool showDefaultSettingsAction;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,7 @@ class AppScaffold extends StatelessWidget {
                       centerTitle: centerTitle,
                       leading: leading,
                       title: title,
-                      actions: appBarActions,
+                      actions: _buildAppBarActions(context),
                       bottom: bottom,
                     )
                     : null,
@@ -103,7 +108,7 @@ class AppScaffold extends StatelessWidget {
                       centerTitle: centerTitle,
                       leading: leading,
                       title: title,
-                      actions: appBarActions,
+                      actions: _buildAppBarActions(context),
                       bottom: bottom,
                     )
                     : null,
@@ -135,7 +140,7 @@ class AppScaffold extends StatelessWidget {
                     centerTitle: centerTitle,
                     leading: leading,
                     title: title,
-                    actions: appBarActions,
+                    actions: _buildAppBarActions(context),
                     bottom: bottom,
                   )
                   : null,
@@ -164,6 +169,30 @@ class AppScaffold extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<Widget>? _buildAppBarActions(BuildContext context) {
+    if (appBarActions != null) {
+      return appBarActions;
+    }
+    final actions = <Widget>[];
+    if (showDefaultSearchAction) {
+      actions.add(
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () => context.push('/search'),
+        ),
+      );
+    }
+    if (showDefaultSettingsAction) {
+      actions.add(
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () => context.push('/settings'),
+        ),
+      );
+    }
+    return actions.isEmpty ? null : actions;
   }
 }
 
