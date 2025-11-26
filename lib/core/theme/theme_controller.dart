@@ -6,31 +6,17 @@ class ThemeState {
   final Color seed;
   final ThemeMode mode;
 
-  const ThemeState({
-    required this.seed,
-    required this.mode,
-  });
+  const ThemeState({required this.seed, required this.mode});
 
-  ThemeState copyWith({
-    Color? seed,
-    ThemeMode? mode,
-  }) {
-    return ThemeState(
-      seed: seed ?? this.seed,
-      mode: mode ?? this.mode,
-    );
+  ThemeState copyWith({Color? seed, ThemeMode? mode}) {
+    return ThemeState(seed: seed ?? this.seed, mode: mode ?? this.mode);
   }
 }
 
 /// ThemeState를 제어하는 컨트롤러.
 class ThemeController extends StateNotifier<ThemeState> {
   ThemeController()
-      : super(
-          const ThemeState(
-            seed: Colors.indigo,
-            mode: ThemeMode.system,
-          ),
-        );
+    : super(const ThemeState(seed: Colors.indigo, mode: ThemeMode.system));
 
   void toggleThemeMode() {
     final next = switch (state.mode) {
@@ -52,5 +38,5 @@ class ThemeController extends StateNotifier<ThemeState> {
 
 final themeControllerProvider =
     StateNotifierProvider<ThemeController, ThemeState>(
-  (ref) => ThemeController(),
-);
+      (ref) => ThemeController(),
+    );
