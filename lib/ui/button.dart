@@ -106,7 +106,7 @@ class AppButton extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final padding = EdgeInsets.symmetric(
-      horizontal: tokens.gapLarge,
+      horizontal: tokens.gapSmall,
       vertical: tokens.gapSmall * 0.75,
     );
 
