@@ -41,22 +41,22 @@ class DashboardScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Environment',
+                    '환경 정보',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Gap(tokens.gapSmall),
                   Text(
-                    'Flavor: ${config.flavor.name.toUpperCase()}',
+                    '플레이버: ${config.flavor.name.toUpperCase()}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Gap(tokens.gapSmall / 2),
                   Text(
-                    'Base URL: ${config.baseUrl}',
+                    'BASE URL: ${config.baseUrl}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   Gap(tokens.gapSmall / 2),
                   Text(
-                    'Analytics: ${config.enableAnalytics ? 'Enabled' : 'Disabled'}',
+                    'Analytics: ${config.enableAnalytics ? '활성화' : '비활성화'}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
