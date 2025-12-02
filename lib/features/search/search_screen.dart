@@ -166,20 +166,31 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   ),
                 ],
               ),
-
             if (query.isNotEmpty) ...[
               SizedBox(height: tokens.gapSmall),
               _SectionHeader(title: '추천 키워드', onControlTap: () {}),
               AppWrapTags(
-                items: const ['셔링 봄버', 'Wmc 경량패딩', '러프사이드 봄버', '코듀로이 봄버'],
+                scrollDirection: Axis.horizontal,
+                items: kRecommendedKeywords,
                 spacing: tokens.gapSmall,
                 chipBuilder:
                     (context, text, index) => Chip(
                       label: Text(text),
-                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest
+                          .withValues(alpha: 0.4),
                       side: BorderSide.none,
                     ),
               ),
+              SizedBox(height: tokens.gapLarge),
+              _ServiceSection(tokens: tokens),
+              SizedBox(height: tokens.gapLarge),
+              _TipsSection(tokens: tokens),
+              SizedBox(height: tokens.gapLarge),
+              _FaqSection(tokens: tokens),
+              SizedBox(height: tokens.gapMedium),
+              _FeedbackCard(tokens: tokens),
             ],
           ],
         ),
@@ -297,3 +308,251 @@ class _RankingList extends StatelessWidget {
     );
   }
 }
+
+class _ServiceSection extends StatelessWidget {
+  const _ServiceSection({required this.tokens});
+
+  final AppTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('서비스', style: theme.textTheme.titleSmall),
+          SizedBox(height: tokens.gapSmall),
+          for (final item in kServiceItems) ...[
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: CircleAvatar(
+                backgroundColor: item.color.withValues(alpha: 0.2),
+                child: Icon(item.icon, color: item.color),
+              ),
+              title: Text.rich(
+                TextSpan(
+                  children: [
+                    if (item.highlight != null)
+                      TextSpan(
+                        text: item.highlight,
+                        style: TextStyle(color: theme.colorScheme.primary),
+                      ),
+                    TextSpan(
+                      text: item.title,
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+              subtitle: item.subtitle != null ? Text(item.subtitle!) : null,
+              onTap: () {},
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _TipsSection extends StatelessWidget {
+  const _TipsSection({required this.tokens});
+
+  final AppTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('오늘의 팁', style: theme.textTheme.titleSmall),
+        SizedBox(height: tokens.gapSmall),
+        for (final tip in kTipItems)
+          Container(
+            margin: EdgeInsets.only(bottom: tokens.gapSmall),
+            padding: EdgeInsets.all(tokens.gapSmall),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.35,
+              ),
+              borderRadius: tokens.radiusMedium,
+            ),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: tip.color.withValues(alpha: 0.2),
+                  child: Icon(tip.icon, color: tip.color),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(tip.title, style: theme.textTheme.titleSmall),
+                      const SizedBox(height: 4),
+                      Text(tip.description, style: theme.textTheme.bodySmall),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _FaqSection extends StatelessWidget {
+  const _FaqSection({required this.tokens});
+
+  final AppTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('자주 묻는 질문', style: theme.textTheme.titleSmall),
+        SizedBox(height: tokens.gapSmall),
+        for (final faq in kFaqItems) ...[
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.surfaceContainerHighest,
+              child: const Icon(Icons.question_mark),
+            ),
+            title: Text(faq.question, style: theme.textTheme.bodyLarge),
+            subtitle: faq.subtitle != null ? Text(faq.subtitle!) : null,
+          ),
+        ],
+        Align(
+          alignment: Alignment.center,
+          child: TextButton(onPressed: () {}, child: const Text('더보기')),
+        ),
+      ],
+    );
+  }
+}
+
+class _FeedbackCard extends StatelessWidget {
+  const _FeedbackCard({required this.tokens});
+
+  final AppTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: EdgeInsets.all(tokens.gapLarge),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        borderRadius: tokens.radiusLarge,
+      ),
+      child: Column(
+        children: [
+          Text('원하는 검색결과가 없나요?', style: theme.textTheme.titleMedium),
+          const SizedBox(height: 4),
+          Text('의견을 보내주시면 빠르게 살펴볼게요.', style: theme.textTheme.bodySmall),
+          const SizedBox(height: 12),
+          AppButton.primary(
+            label: '의견 보내기',
+            onPressed: () {},
+            textStyle: TextStyle(fontWeight: FontWeight.bold),
+            backgroundColor: theme.colorScheme.primary,
+            foregroundColor: theme.colorScheme.onPrimary,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ServiceItem {
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String? subtitle;
+  final String? highlight;
+  const _ServiceItem({
+    required this.icon,
+    required this.color,
+    required this.title,
+    this.subtitle,
+    this.highlight,
+  });
+}
+
+class _TipItem {
+  final String title;
+  final String description;
+  final IconData icon;
+  final Color color;
+  const _TipItem({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.color,
+  });
+}
+
+class _FaqItem {
+  final String question;
+  final String? subtitle;
+  const _FaqItem(this.question, {this.subtitle});
+}
+
+const kRecommendedKeywords = ['예약', '예약 송금', '예약 이체', '약 알림 받기', '페이 결제'];
+
+const kServiceItems = [
+  _ServiceItem(
+    icon: Icons.gamepad,
+    color: Color(0xFF0080FF),
+    highlight: '아이언 앤 ',
+    title: '블러드',
+    subtitle: '게임 바로가기',
+  ),
+  _ServiceItem(icon: Icons.public, color: Color(0xFF26C6DA), title: '해외여행 홈'),
+  _ServiceItem(
+    icon: Icons.search,
+    color: Color(0xFF00BFA5),
+    title: '아유워크',
+    subtitle: '실시간 AI 검색',
+  ),
+  _ServiceItem(
+    icon: Icons.school,
+    color: Color(0xFFFFB74D),
+    highlight: '영화진흥위원회 ',
+    title: '국가기술자격 취득사항 확인서 발급',
+    subtitle: '증명서 발급하기',
+  ),
+  _ServiceItem(
+    icon: Icons.star_rate,
+    color: Color(0xFFFFD54F),
+    highlight: '토스뱅크 ',
+    title: '아이와 용돈 미션하기',
+  ),
+];
+
+const kTipItems = [
+  _TipItem(
+    title: '○○페이도 현금영수증 발급되나요?',
+    description: '네, 발급돼요. 단, 결제수단이 \'계좌\'여야 해요.',
+    icon: Icons.receipt_long,
+    color: Color(0xFF4FC3F7),
+  ),
+  _TipItem(
+    title: '해킹 사고, 피해를 막으려면?',
+    description: '약 3,370만개 계정의 개인정보가 유출됐어요.',
+    icon: Icons.lock_outline,
+    color: Color(0xFF9575CD),
+  ),
+];
+
+const kFaqItems = [
+  _FaqItem('토스뱅크 굴비적금은 어떻게 만드나요?'),
+  _FaqItem('토스뱅크의 거래중지(휴면)계좌는 어떻게 해제할 수 있나요?'),
+  _FaqItem('토스뱅크 통장의 잔액 증명서는 어떻게 발급받나요?'),
+];
