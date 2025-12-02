@@ -1,134 +1,188 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_base_app/features/search/search_provider.dart';
 
 import '../../core/token/app_tokens.dart';
 import '../../ui/button.dart';
 import '../../ui/layouts/app_wrap_tags.dart';
 import '../../ui/search_bar.dart';
+import 'search_provider.dart';
 
-class SearchScreen extends ConsumerWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final searchQuery = ref.watch(searchQueryProvider);
-    final tokens = Theme.of(context).extension<AppTokens>()!;
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Padding(
-          padding: EdgeInsets.only(right: tokens.gapSmall),
-          child: AppSearchBar(
-            hintText: '검색어를 입력하세요',
-            padding: EdgeInsets.symmetric(horizontal: tokens.gapSmall),
-            onChanged:
-                (value) => ref.read(searchQueryProvider.notifier).state = value,
-            trailing:
-                searchQuery.isNotEmpty
-                    ? IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed:
-                          () =>
-                              ref.read(searchQueryProvider.notifier).state = '',
-                    )
-                    : null,
-          ),
-        ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.only(
-          left: tokens.gapMedium,
-          right: tokens.gapMedium,
-          top: tokens.gapMedium,
-          bottom: tokens.gapXLarge,
-        ),
-        children: [
-          _SectionHeader(
-            title: '최근 검색어',
-            controlLabel: '모두삭제',
-            onControlTap: () {},
-          ),
-          AppWrapTags(
-            items: const ['셔링 봄버', 'Wmc 경량패딩', '러프사이드 봄버', '코듀로이 봄버'],
-            spacing: tokens.gapSmall,
-            chipBuilder:
-                (context, text, index) => Chip(
-                  label: Text(text),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  side: BorderSide.none,
-                ),
-          ),
-          SizedBox(height: tokens.gapSmall),
-          _SectionHeader(
-            title: '최근 방문한 브랜드',
-            controlLabel: '모두삭제',
-            onControlTap: () {},
-          ),
-          AppWrapTags(
-            items: const ['어반디타입', '오프닝프로젝트', '돈포겟미', '인사일런스'],
-            spacing: tokens.gapSmall,
-            chipBuilder:
-                (context, text, index) => Chip(
-                  avatar: CircleAvatar(
-                    radius: 12,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
-                    child: Text(
-                      text.characters.first,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+class _SearchScreenState extends ConsumerState<SearchScreen> {
+  late final TextEditingController _searchController;
+  late final StateController<String> _queryController;
+
+  @override
+  void initState() {
+    super.initState();
+    _queryController = ref.read(searchQueryProvider.notifier);
+    _searchController = TextEditingController(text: _queryController.state);
+  }
+
+  @override
+  void dispose() {
+    _queryController.state = '';
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onQueryChanged(String value) {
+    _queryController.state = value;
+    setState(() {});
+  }
+
+  void _clearQuery() {
+    _searchController.clear();
+    _onQueryChanged('');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = Theme.of(context).extension<AppTokens>()!;
+    final query = ref.watch(searchQueryProvider);
+
+    return PopScope(
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          _queryController.state = '';
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: Padding(
+            padding: EdgeInsets.only(right: tokens.gapSmall),
+            child: AppSearchBar(
+              controller: _searchController,
+              hintText: '검색어를 입력하세요',
+              padding: EdgeInsets.symmetric(horizontal: tokens.gapSmall),
+              onChanged: _onQueryChanged,
+              trailing:
+                  _searchController.text.isEmpty
+                      ? null
+                      : IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: _clearQuery,
                       ),
-                    ),
-                  ),
-                  label: Text(text),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  side: BorderSide.none,
-                ),
-          ),
-          SizedBox(height: tokens.gapSmall),
-          _RankingSection(
-            title: '인기 검색어',
-            reference: '11.26 21:00, 기준',
-            items: const [
-              '니트',
-              '패딩',
-              '후드티',
-              '맨투맨',
-              '경량패딩',
-              '어그',
-              '무진장',
-              '무스탕',
-              '바지',
-              '코트',
-            ],
-          ),
-          SizedBox(height: tokens.gapLarge),
-          _RankingSection(
-            title: '급상승 검색어',
-            reference: '11.26 21:00, 기준',
-            items: const [
-              '츄리닝',
-              '버버리',
-              '긴팔',
-              '목티',
-              '자라',
-              '펜필드',
-              '데님 팬츠',
-              '제로',
-              '탄산마그네슘',
-              '남자 맨투맨',
-            ],
-          ),
-          if (searchQuery.isNotEmpty) ...[
-            SizedBox(height: tokens.gapLarge),
-            Text(
-              "'$searchQuery' 검색 결과가 곧 표시됩니다.",
-              style: Theme.of(context).textTheme.bodyMedium,
             ),
+          ),
+        ),
+        body: ListView(
+          padding: EdgeInsets.only(
+            left: tokens.gapMedium,
+            right: tokens.gapMedium,
+            top: tokens.gapMedium,
+            bottom: tokens.gapXLarge,
+          ),
+          children: [
+            if (query.isEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _SectionHeader(
+                    title: '최근 검색어',
+                    controlLabel: '모두삭제',
+                    onControlTap: () {},
+                  ),
+                  AppWrapTags(
+                    items: const ['셔링 봄버', 'Wmc 경량패딩', '러프사이드 봄버', '코듀로이 봄버'],
+                    spacing: tokens.gapSmall,
+                    chipBuilder:
+                        (context, text, index) => Chip(
+                          label: Text(text),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          side: BorderSide.none,
+                        ),
+                  ),
+                  SizedBox(height: tokens.gapSmall),
+                  _SectionHeader(
+                    title: '최근 방문한 브랜드',
+                    controlLabel: '모두삭제',
+                    onControlTap: () {},
+                  ),
+                  AppWrapTags(
+                    items: const ['어반디타입', '오프닝프로젝트', '돈포겟미', '인사일런스'],
+                    spacing: tokens.gapSmall,
+                    chipBuilder:
+                        (context, text, index) => Chip(
+                          avatar: CircleAvatar(
+                            radius: 12,
+                            backgroundColor:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer,
+                            child: Text(
+                              text.characters.first,
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          label: Text(text),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          side: BorderSide.none,
+                        ),
+                  ),
+                  SizedBox(height: tokens.gapSmall),
+                  _RankingSection(
+                    title: '인기 검색어',
+                    reference: '11.26 21:00, 기준',
+                    items: const [
+                      '니트',
+                      '패딩',
+                      '후드티',
+                      '맨투맨',
+                      '경량패딩',
+                      '어그',
+                      '무진장',
+                      '무스탕',
+                      '바지',
+                      '코트',
+                    ],
+                  ),
+                  SizedBox(height: tokens.gapLarge),
+                  _RankingSection(
+                    title: '급상승 검색어',
+                    reference: '11.26 21:00, 기준',
+                    items: const [
+                      '츄리닝',
+                      '버버리',
+                      '긴팔',
+                      '목티',
+                      '자라',
+                      '펜필드',
+                      '데님 팬츠',
+                      '제로',
+                      '탄산마그네슘',
+                      '남자 맨투맨',
+                    ],
+                  ),
+                ],
+              ),
+
+            if (query.isNotEmpty) ...[
+              SizedBox(height: tokens.gapSmall),
+              _SectionHeader(title: '추천 키워드', onControlTap: () {}),
+              AppWrapTags(
+                items: const ['셔링 봄버', 'Wmc 경량패딩', '러프사이드 봄버', '코듀로이 봄버'],
+                spacing: tokens.gapSmall,
+                chipBuilder:
+                    (context, text, index) => Chip(
+                      label: Text(text),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      side: BorderSide.none,
+                    ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
