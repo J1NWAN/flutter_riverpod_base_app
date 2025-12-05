@@ -317,40 +317,51 @@ class _ServiceSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('서비스', style: theme.textTheme.titleSmall),
-          SizedBox(height: tokens.gapSmall),
-          for (final item in kServiceItems) ...[
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: CircleAvatar(
-                backgroundColor: item.color.withValues(alpha: 0.2),
-                child: Icon(item.icon, color: item.color),
-              ),
-              title: Text.rich(
-                TextSpan(
-                  children: [
-                    if (item.highlight != null)
-                      TextSpan(
-                        text: item.highlight,
-                        style: TextStyle(color: theme.colorScheme.primary),
-                      ),
-                    TextSpan(
-                      text: item.title,
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
-              subtitle: item.subtitle != null ? Text(item.subtitle!) : null,
-              onTap: () {},
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('서비스', style: theme.textTheme.titleSmall),
+        SizedBox(height: tokens.gapSmall),
+        for (final item in kServiceItems) ...[
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
+            leading: CircleAvatar(
+              backgroundColor: item.color.withValues(alpha: 0.2),
+              child: Icon(item.icon, color: item.color),
             ),
-          ],
+            title: Text.rich(
+              TextSpan(
+                children: [
+                  if (item.highlight != null)
+                    TextSpan(
+                      text: item.highlight,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  TextSpan(
+                    text: item.title,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            subtitle:
+                item.subtitle != null
+                    ? Text(
+                      item.subtitle!,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    )
+                    : null,
+            onTap: () {},
+          ),
         ],
-      ),
+      ],
     );
   }
 }
