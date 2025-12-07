@@ -7,6 +7,7 @@ import 'features/auth/login_screen.dart';
 import 'features/auth/signup_screen.dart';
 import 'features/calendar/calendar_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
+import 'features/notification/notification_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/main/main_screen.dart';
 import 'features/settings/setting_screen.dart';
@@ -57,6 +58,11 @@ GoRouter goRouter(GoRouterRef ref) {
         path: AppRoutes.theme,
         name: 'theme',
         builder: (context, state) => const ThemeScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.notification,
+        name: 'notification',
+        builder: (context, state) => const NotificationScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,

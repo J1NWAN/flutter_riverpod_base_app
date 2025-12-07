@@ -93,7 +93,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                             Icons.chevron_right,
                             color: Color.fromRGBO(79, 85, 93, 1),
                           ),
-                          onTap: () {},
+                          onTap: () => context.push('/setting/notification'),
                         ),
                         ListTile(
                           leading: Text(
