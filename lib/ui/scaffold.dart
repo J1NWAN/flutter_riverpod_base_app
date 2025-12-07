@@ -188,7 +188,7 @@ class AppScaffold extends StatelessWidget {
       actions.add(
         IconButton(
           icon: const Icon(Icons.settings),
-          onPressed: () => context.push('/settings'),
+          onPressed: () => context.push('/setting'),
         ),
       );
     }
