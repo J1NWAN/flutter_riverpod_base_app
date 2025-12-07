@@ -8,8 +8,9 @@ import 'features/auth/signup_screen.dart';
 import 'features/calendar/calendar_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/search/search_screen.dart';
-import 'features/settings/settings_screen.dart';
 import 'features/main/main_screen.dart';
+import 'features/settings/setting_screen.dart';
+import 'features/theme/theme_screen.dart';
 import 'routes.dart';
 
 part 'router.g.dart';
@@ -48,9 +49,14 @@ GoRouter goRouter(GoRouterRef ref) {
         builder: (context, state) => const SearchScreen(),
       ),
       GoRoute(
-        path: AppRoutes.settings,
-        name: 'settings',
-        builder: (context, state) => const SettingsScreen(),
+        path: AppRoutes.setting,
+        name: 'setting',
+        builder: (context, state) => const SettingScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.theme,
+        name: 'theme',
+        builder: (context, state) => const ThemeScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,
