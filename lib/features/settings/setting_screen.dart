@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_base_app/ui/app_box.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../ui/card.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
@@ -61,8 +62,9 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
               child: Column(
                 children: [
                   // 기본 설정
-                  AppBox(
-                    padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  AppCard(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    margin: EdgeInsets.zero,
                     child: Column(
                       children: [
                         ListTile(
