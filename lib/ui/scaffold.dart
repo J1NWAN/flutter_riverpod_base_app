@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/token/app_tokens.dart';
 import '../../ui/appbar/app_top_bar.dart';
+import 'search_bar.dart';
 
 class AppDestination {
   const AppDestination({
@@ -36,9 +37,17 @@ class AppScaffold extends StatelessWidget {
     this.showDefaultSettingsAction = true,
     this.maxContentWidth,
     this.contentPadding,
+    this.useSearchBar = false,
+    this.searchController,
+    this.searchHintText,
+    this.searchPadding,
+    this.searchTrailing,
+    this.onSearchChanged,
+    this.searchAutofocus = false,
     super.key,
   });
 
+  // 앱바/탐색 관련
   final String? title;
   final List<AppDestination> destinations;
   final int currentIndex;
@@ -53,8 +62,19 @@ class AppScaffold extends StatelessWidget {
   final PreferredSizeWidget? bottom;
   final bool showDefaultSearchAction;
   final bool showDefaultSettingsAction;
+
+  // 본문 레이아웃
   final double? maxContentWidth;
   final EdgeInsetsGeometry? contentPadding;
+
+  // 검색바 옵션 (useSearchBar=true일 때 적용)
+  final bool useSearchBar;
+  final TextEditingController? searchController;
+  final String? searchHintText;
+  final EdgeInsetsGeometry? searchPadding;
+  final Widget? searchTrailing;
+  final ValueChanged<String>? onSearchChanged;
+  final bool searchAutofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +100,7 @@ class AppScaffold extends StatelessWidget {
 
         if (isDesktop) {
           return Scaffold(
-            appBar:
-                showAppBar
-                    ? AppTopBar(
-                      centerTitle: centerTitle,
-                      leading: leading,
-                      title: title ?? '',
-                      actions: _buildAppBarActions(context),
-                      bottom: bottom,
-                    )
-                    : null,
+            appBar: _buildAppBar(context, tokens),
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -117,16 +128,7 @@ class AppScaffold extends StatelessWidget {
 
         if (isTablet) {
           return Scaffold(
-            appBar:
-                showAppBar
-                    ? AppTopBar(
-                      centerTitle: centerTitle,
-                      leading: leading,
-                      title: title ?? '',
-                      actions: _buildAppBarActions(context),
-                      bottom: bottom,
-                    )
-                    : null,
+            appBar: _buildAppBar(context, tokens),
             floatingActionButton: floatingActionButton,
             body: Row(
               children: [
@@ -150,16 +152,7 @@ class AppScaffold extends StatelessWidget {
         }
 
         return Scaffold(
-          appBar:
-              showAppBar
-                  ? AppTopBar(
-                    centerTitle: centerTitle,
-                    leading: leading,
-                    title: title ?? '',
-                    actions: _buildAppBarActions(context),
-                    bottom: bottom,
-                  )
-                  : null,
+          appBar: _buildAppBar(context, tokens),
           floatingActionButton: floatingActionButton,
           body: _wrapContent(
             child: child,
@@ -188,12 +181,50 @@ class AppScaffold extends StatelessWidget {
     );
   }
 
+  PreferredSizeWidget? _buildAppBar(
+    BuildContext context,
+    AppTokens tokens,
+  ) {
+    if (!showAppBar) return null;
+
+    if (useSearchBar) {
+      return AppBar(
+        titleSpacing: 0,
+        title: Padding(
+          padding: EdgeInsets.only(right: tokens.gapSmall),
+          child: AppSearchBar(
+            controller: searchController,
+            hintText: searchHintText ?? '검색어를 입력하세요',
+            padding: searchPadding ?? EdgeInsets.symmetric(horizontal: tokens.gapSmall),
+            onChanged: onSearchChanged,
+            trailing: searchTrailing,
+            autofocus: searchAutofocus,
+          ),
+        ),
+      );
+    }
+
+    return AppTopBar(
+      centerTitle: centerTitle,
+      leading: leading,
+      title: title ?? '',
+      actions: _buildAppBarActions(context),
+      bottom: bottom,
+    );
+  }
+
   List<Widget>? _buildAppBarActions(BuildContext context) {
+    if (useSearchBar && appBarActions == null) {
+      return null;
+    }
     if (appBarActions != null) {
       return appBarActions;
     }
     final actions = <Widget>[];
-    if (showDefaultSearchAction) {
+    final allowSearchAction = useSearchBar ? false : showDefaultSearchAction;
+    final allowSettingsAction = useSearchBar ? false : showDefaultSettingsAction;
+
+    if (allowSearchAction) {
       actions.add(
         IconButton(
           icon: const Icon(Icons.search),
@@ -201,7 +232,7 @@ class AppScaffold extends StatelessWidget {
         ),
       );
     }
-    if (showDefaultSettingsAction) {
+    if (allowSettingsAction) {
       actions.add(
         IconButton(
           icon: const Icon(Icons.settings),
