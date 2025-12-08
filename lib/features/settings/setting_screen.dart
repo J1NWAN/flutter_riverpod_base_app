@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/token/app_tokens.dart';
 import '../../ui/card.dart';
+import '../../ui/navigation/app_destinations.dart';
+import '../../ui/scaffold.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
@@ -14,21 +17,31 @@ class SettingScreen extends ConsumerStatefulWidget {
 class _SettingScreenState extends ConsumerState<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Theme(
+    final tokens = Theme.of(context).extension<AppTokens>()!;
+
+    return AppScaffold(
+      title: '설정',
+      destinations: appDestinations,
+      currentIndex: 0,
+      showNavigation: false,
+      showDefaultSearchAction: false,
+      showDefaultSettingsAction: false,
+      onDestinationSelected: (_) {},
+      maxContentWidth: 720,
+      child: Theme(
         data: Theme.of(context).copyWith(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
         ),
-        child: Column(
+        child: ListView(
           children: [
             ListTile(
+              contentPadding: EdgeInsets.zero,
               leading: Container(
                 width: 45,
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(41, 43, 47, 1),
+                  color: const Color.fromRGBO(41, 43, 47, 1),
                   borderRadius: BorderRadius.circular(90),
                 ),
                 child: const Icon(
@@ -47,76 +60,68 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
               subtitle: Text(
                 '프로필 및 계정 설정',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Color.fromRGBO(120, 120, 128, 1),
+                  color: const Color.fromRGBO(120, 120, 128, 1),
                 ),
               ),
-              trailing: Icon(Icons.chevron_right),
+              trailing: const Icon(Icons.chevron_right),
               onTap: () {},
             ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 4.0,
-              ),
-              child: Column(
-                children: [
-                  // 기본 설정
-                  AppCard(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                    margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: Text(
-                            '언어',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
+            Column(
+              children: [
+                AppCard(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  margin: EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Text(
+                          '언어',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          trailing: Icon(
-                            Icons.chevron_right,
-                            color: Color.fromRGBO(79, 85, 93, 1),
-                          ),
-                          onTap: () {},
                         ),
-                        ListTile(
-                          leading: Text(
-                            '알림',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          trailing: Icon(
-                            Icons.chevron_right,
-                            color: Color.fromRGBO(79, 85, 93, 1),
-                          ),
-                          onTap: () => context.push('/setting/notification'),
+                        trailing: const Icon(
+                          Icons.chevron_right,
+                          color: Color.fromRGBO(79, 85, 93, 1),
                         ),
-                        ListTile(
-                          leading: Text(
-                            '화면 테마',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: Text(
+                          '알림',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          trailing: Icon(
-                            Icons.chevron_right,
-                            color: Color.fromRGBO(79, 85, 93, 1),
-                          ),
-                          onTap: () => context.push('/setting/theme'),
                         ),
-                      ],
-                    ),
+                        trailing: const Icon(
+                          Icons.chevron_right,
+                          color: Color.fromRGBO(79, 85, 93, 1),
+                        ),
+                        onTap: () => context.push('/setting/notification'),
+                      ),
+                      ListTile(
+                        leading: Text(
+                          '화면 테마',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.chevron_right,
+                          color: Color.fromRGBO(79, 85, 93, 1),
+                        ),
+                        onTap: () => context.push('/setting/theme'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

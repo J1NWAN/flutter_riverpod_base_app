@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/token/app_tokens.dart';
 import '../../ui/button.dart';
 import '../../ui/layouts/app_wrap_tags.dart';
+import '../../ui/navigation/app_destinations.dart';
+import '../../ui/scaffold.dart';
 import '../../ui/search_bar.dart';
 import 'search_provider.dart';
 
@@ -27,7 +29,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   void dispose() {
-    _queryController.state = '';
     _searchController.dispose();
     super.dispose();
   }
@@ -47,39 +48,31 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final tokens = Theme.of(context).extension<AppTokens>()!;
     final query = ref.watch(searchQueryProvider);
 
-    return PopScope(
-      onPopInvoked: (didPop) {
-        if (didPop) {
-          _queryController.state = '';
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          title: Padding(
-            padding: EdgeInsets.only(right: tokens.gapSmall),
-            child: AppSearchBar(
-              controller: _searchController,
-              hintText: '검색어를 입력하세요',
-              padding: EdgeInsets.symmetric(horizontal: tokens.gapSmall),
-              onChanged: _onQueryChanged,
-              trailing:
-                  _searchController.text.isEmpty
-                      ? null
-                      : IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: _clearQuery,
-                      ),
-            ),
-          ),
-        ),
-        body: ListView(
-          padding: EdgeInsets.only(
-            left: tokens.gapMedium,
-            right: tokens.gapMedium,
-            top: tokens.gapMedium,
-            bottom: tokens.gapXLarge,
-          ),
+    return AppScaffold(
+      title: '',
+      destinations: appDestinations,
+      currentIndex: 0,
+      showNavigation: false,
+      showDefaultSearchAction: false,
+      showDefaultSettingsAction: false,
+      useSearchBar: true,
+      searchController: _searchController,
+      searchHintText: '검색어를 입력하세요',
+      searchPadding: EdgeInsets.symmetric(horizontal: tokens.gapSmall),
+      searchTrailing:
+          _searchController.text.isEmpty
+              ? null
+              : IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: _clearQuery,
+              ),
+      onSearchChanged: _onQueryChanged,
+      onDestinationSelected: (_) {},
+      child: PopScope(
+        onPopInvoked: (didPop) {
+          if (didPop) _queryController.state = '';
+        },
+        child: ListView(
           children: [
             if (query.isEmpty)
               Column(
@@ -323,43 +316,38 @@ class _ServiceSection extends StatelessWidget {
         Text('서비스', style: theme.textTheme.titleSmall),
         SizedBox(height: tokens.gapSmall),
         for (final item in kServiceItems) ...[
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 12),
-            leading: CircleAvatar(
-              backgroundColor: item.color.withValues(alpha: 0.2),
-              child: Icon(item.icon, color: item.color),
+          Theme(
+            data: theme.copyWith(
+              splashFactory: InkRipple.splashFactory,
+              splashColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+              highlightColor: theme.colorScheme.primary.withValues(alpha: 0.05),
             ),
-            title: Text.rich(
-              TextSpan(
-                children: [
-                  if (item.highlight != null)
-                    TextSpan(
-                      text: item.highlight,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  TextSpan(
-                    text: item.title,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: CircleAvatar(
+                backgroundColor: item.color.withValues(alpha: 0.2),
+                child: Icon(item.icon, color: item.color),
               ),
-            ),
-            subtitle:
-                item.subtitle != null
-                    ? Text(
-                      item.subtitle!,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+              title: Text.rich(
+                TextSpan(
+                  children: [
+                    if (item.highlight != null)
+                      TextSpan(
+                        text: item.highlight,
+                        style: TextStyle(color: theme.colorScheme.primary),
                       ),
-                    )
-                    : null,
-            onTap: () {},
+                    TextSpan(
+                      text: item.title,
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+              subtitle: item.subtitle != null ? Text(item.subtitle!) : null,
+              onTap: () {},
+            ),
           ),
+          Divider(height: tokens.gapSmall),
         ],
       ],
     );
@@ -377,7 +365,7 @@ class _TipsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('오늘의 팁', style: theme.textTheme.titleSmall),
+        Text('오늘의 팁', style: theme.textTheme.titleMedium),
         SizedBox(height: tokens.gapSmall),
         for (final tip in kTipItems)
           Container(
@@ -426,7 +414,7 @@ class _FaqSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('자주 묻는 질문', style: theme.textTheme.titleSmall),
+        Text('자주 묻는 질문', style: theme.textTheme.titleMedium),
         SizedBox(height: tokens.gapSmall),
         for (final faq in kFaqItems) ...[
           ListTile(
@@ -438,6 +426,7 @@ class _FaqSection extends StatelessWidget {
             title: Text(faq.question, style: theme.textTheme.bodyLarge),
             subtitle: faq.subtitle != null ? Text(faq.subtitle!) : null,
           ),
+          Divider(height: tokens.gapSmall),
         ],
         Align(
           alignment: Alignment.center,
@@ -463,18 +452,13 @@ class _FeedbackCard extends StatelessWidget {
         borderRadius: tokens.radiusLarge,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('원하는 검색결과가 없나요?', style: theme.textTheme.titleMedium),
           const SizedBox(height: 4),
           Text('의견을 보내주시면 빠르게 살펴볼게요.', style: theme.textTheme.bodySmall),
           const SizedBox(height: 12),
-          AppButton.primary(
-            label: '의견 보내기',
-            onPressed: () {},
-            textStyle: TextStyle(fontWeight: FontWeight.bold),
-            backgroundColor: theme.colorScheme.primary,
-            foregroundColor: theme.colorScheme.onPrimary,
-          ),
+          AppButton.primary(label: '의견 보내기', onPressed: () {}),
         ],
       ),
     );
