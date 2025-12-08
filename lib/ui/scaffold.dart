@@ -20,7 +20,7 @@ class AppDestination {
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
-    required this.title,
+    this.title,
     required this.destinations,
     required this.currentIndex,
     required this.onDestinationSelected,
@@ -34,10 +34,12 @@ class AppScaffold extends StatelessWidget {
     this.bottom,
     this.showDefaultSearchAction = true,
     this.showDefaultSettingsAction = true,
+    this.maxContentWidth,
+    this.contentPadding,
     super.key,
   });
 
-  final String title;
+  final String? title;
   final List<AppDestination> destinations;
   final int currentIndex;
   final ValueChanged<int> onDestinationSelected;
@@ -51,6 +53,8 @@ class AppScaffold extends StatelessWidget {
   final PreferredSizeWidget? bottom;
   final bool showDefaultSearchAction;
   final bool showDefaultSettingsAction;
+  final double? maxContentWidth;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +68,16 @@ class AppScaffold extends StatelessWidget {
             width >= tokens.breakpointTablet &&
             width < tokens.breakpointDesktop;
 
+        final defaultPadding =
+            contentPadding ??
+            EdgeInsets.all(
+              isDesktop
+                  ? tokens.gapXLarge
+                  : isTablet
+                  ? tokens.gapLarge
+                  : tokens.gapMedium,
+            );
+
         if (isDesktop) {
           return Scaffold(
             appBar:
@@ -71,7 +85,7 @@ class AppScaffold extends StatelessWidget {
                     ? AppTopBar(
                       centerTitle: centerTitle,
                       leading: leading,
-                      title: title,
+                      title: title ?? '',
                       actions: _buildAppBarActions(context),
                       bottom: bottom,
                     )
@@ -90,9 +104,10 @@ class AppScaffold extends StatelessWidget {
                     ),
                   ),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(tokens.gapXLarge),
-                    child: SafeArea(child: child),
+                  child: _wrapContent(
+                    child: child,
+                    padding: defaultPadding,
+                    maxWidth: maxContentWidth ?? 1080,
                   ),
                 ),
               ],
@@ -107,7 +122,7 @@ class AppScaffold extends StatelessWidget {
                     ? AppTopBar(
                       centerTitle: centerTitle,
                       leading: leading,
-                      title: title,
+                      title: title ?? '',
                       actions: _buildAppBarActions(context),
                       bottom: bottom,
                     )
@@ -123,9 +138,10 @@ class AppScaffold extends StatelessWidget {
                     extended: false,
                   ),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(tokens.gapLarge),
-                    child: SafeArea(child: child),
+                  child: _wrapContent(
+                    child: child,
+                    padding: defaultPadding,
+                    maxWidth: maxContentWidth ?? 720,
                   ),
                 ),
               ],
@@ -139,15 +155,16 @@ class AppScaffold extends StatelessWidget {
                   ? AppTopBar(
                     centerTitle: centerTitle,
                     leading: leading,
-                    title: title,
+                    title: title ?? '',
                     actions: _buildAppBarActions(context),
                     bottom: bottom,
                   )
                   : null,
           floatingActionButton: floatingActionButton,
-          body: Padding(
-            padding: EdgeInsets.all(tokens.gapLarge),
-            child: SafeArea(child: child),
+          body: _wrapContent(
+            child: child,
+            padding: defaultPadding,
+            maxWidth: maxContentWidth ?? double.infinity,
           ),
           bottomNavigationBar:
               showNavigation
@@ -193,6 +210,21 @@ class AppScaffold extends StatelessWidget {
       );
     }
     return actions.isEmpty ? null : actions;
+  }
+
+  Widget _wrapContent({
+    required Widget child,
+    required EdgeInsetsGeometry padding,
+    double? maxWidth,
+  }) {
+    final padded = Padding(padding: padding, child: SafeArea(child: child));
+    if (maxWidth == null) return padded;
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: padded,
+      ),
+    );
   }
 }
 
