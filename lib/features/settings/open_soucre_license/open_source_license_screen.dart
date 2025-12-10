@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_base_app/ui/scaffold.dart';
 
-import '../../ui/navigation/app_destinations.dart';
+import '../../../ui/navigation/app_destinations.dart';
 
 class OpenSourceLicenseScreen extends StatelessWidget {
   const OpenSourceLicenseScreen({super.key});
