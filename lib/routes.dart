@@ -13,6 +13,7 @@ class AppRoutes {
 
   // 설정 관련 라우트
   static const setting = '/setting';
+  static const profile = '/setting/profile';
   static const theme = '/setting/theme';
   static const notification = '/setting/notification';
   static const openSourceLicense = '/setting/open-source-license';

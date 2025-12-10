@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_base_app/features/component/component_screen.dart';
-import 'package:flutter_riverpod_base_app/features/settings/open_source_license_screen.dart';
+import 'package:flutter_riverpod_base_app/features/settings/open_soucre_license/open_source_license_screen.dart';
+import 'package:flutter_riverpod_base_app/features/settings/profile/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -54,6 +55,11 @@ GoRouter goRouter(GoRouterRef ref) {
         path: AppRoutes.setting,
         name: 'setting',
         builder: (context, state) => const SettingScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        name: 'profile',
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: AppRoutes.theme,

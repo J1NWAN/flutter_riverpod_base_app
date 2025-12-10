@@ -65,7 +65,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                 ),
               ),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () => context.push('/setting/profile'),
             ),
             Column(
               children: [
