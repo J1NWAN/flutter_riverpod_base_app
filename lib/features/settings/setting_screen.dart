@@ -18,6 +18,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     final tokens = Theme.of(context).extension<AppTokens>()!;
+    final theme = Theme.of(context);
 
     return AppScaffold(
       title: '설정',
@@ -73,50 +74,26 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                   margin: EdgeInsets.zero,
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: Text(
-                          '언어',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        trailing: const Icon(
-                          Icons.chevron_right,
-                          color: Color.fromRGBO(79, 85, 93, 1),
-                        ),
+                      _SettingTile(
+                        label: '언어',
                         onTap: () {},
+                        textStyle: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      ListTile(
-                        leading: Text(
-                          '알림',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        trailing: const Icon(
-                          Icons.chevron_right,
-                          color: Color.fromRGBO(79, 85, 93, 1),
-                        ),
+                      _SettingTile(
+                        label: '알림',
                         onTap: () => context.push('/setting/notification'),
+                        textStyle: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      ListTile(
-                        leading: Text(
-                          '화면 테마',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        trailing: const Icon(
-                          Icons.chevron_right,
-                          color: Color.fromRGBO(79, 85, 93, 1),
-                        ),
+                      _SettingTile(
+                        label: '화면 테마',
                         onTap: () => context.push('/setting/theme'),
+                        textStyle: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
@@ -126,6 +103,30 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SettingTile extends StatelessWidget {
+  const _SettingTile({
+    required this.label,
+    required this.onTap,
+    this.textStyle,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Text(label, style: textStyle),
+      trailing: const Icon(
+        Icons.chevron_right,
+        color: Color.fromRGBO(79, 85, 93, 1),
+      ),
+      onTap: onTap,
     );
   }
 }
