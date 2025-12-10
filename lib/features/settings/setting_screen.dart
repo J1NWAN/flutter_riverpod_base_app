@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/token/app_tokens.dart';
+import '../../ui/button.dart';
 import '../../ui/card.dart';
 import '../../ui/navigation/app_destinations.dart';
 import '../../ui/scaffold.dart';
@@ -21,7 +22,6 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
     final theme = Theme.of(context);
 
     return AppScaffold(
-      title: '설정',
       destinations: appDestinations,
       currentIndex: 0,
       showNavigation: false,
@@ -99,6 +99,19 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                   ),
                 ),
               ],
+            ),
+
+            SizedBox(height: tokens.gapMedium),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: AppButton.text(
+                label: '오픈소스 라이선스 보기',
+                onPressed: () => context.push('/setting/open-source-license'),
+                textStyle: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.surface,
+                ),
+              ),
             ),
           ],
         ),

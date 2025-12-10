@@ -20,7 +20,7 @@ class CalendarScreen extends ConsumerWidget {
     final config = ref.watch(appConfigProvider);
 
     return AppScaffold(
-      title: 'Calendar',
+      title: '캘린더',
       destinations: appDestinations,
       currentIndex: 2,
       onDestinationSelected: (index) {

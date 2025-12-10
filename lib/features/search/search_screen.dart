@@ -49,7 +49,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final query = ref.watch(searchQueryProvider);
 
     return AppScaffold(
-      title: '',
       destinations: appDestinations,
       currentIndex: 0,
       showNavigation: false,

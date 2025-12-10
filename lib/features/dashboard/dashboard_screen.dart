@@ -23,7 +23,7 @@ class DashboardScreen extends ConsumerWidget {
     final config = ref.watch(appConfigProvider);
 
     return AppScaffold(
-      title: 'Dashboard',
+      title: '대시보드',
       destinations: appDestinations,
       currentIndex: 1,
       onDestinationSelected: (index) {
@@ -40,10 +40,7 @@ class DashboardScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '환경 정보',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  Text('환경 정보', style: Theme.of(context).textTheme.titleMedium),
                   Gap(tokens.gapSmall),
                   Text(
                     '플레이버: ${config.flavor.name.toUpperCase()}',

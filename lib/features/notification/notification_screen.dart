@@ -25,7 +25,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     final bp = breakpointOf(context);
 
     return AppScaffold(
-      title: '',
       destinations: appDestinations,
       currentIndex: 0,
       showNavigation: false,

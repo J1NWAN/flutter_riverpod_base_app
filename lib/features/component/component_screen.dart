@@ -34,7 +34,7 @@ class ComponentScreen extends ConsumerWidget {
       length: tabs.length,
       child: AppScaffold(
         bottom: TabBar(isScrollable: true, tabs: tabs),
-        title: 'Component Screen',
+        title: '컴포넌트 데모',
         destinations: appDestinations,
         currentIndex: 3,
         onDestinationSelected: (index) {
