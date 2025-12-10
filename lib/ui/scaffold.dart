@@ -181,10 +181,7 @@ class AppScaffold extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget? _buildAppBar(
-    BuildContext context,
-    AppTokens tokens,
-  ) {
+  PreferredSizeWidget? _buildAppBar(BuildContext context, AppTokens tokens) {
     if (!showAppBar) return null;
 
     if (useSearchBar) {
@@ -195,7 +192,9 @@ class AppScaffold extends StatelessWidget {
           child: AppSearchBar(
             controller: searchController,
             hintText: searchHintText ?? '검색어를 입력하세요',
-            padding: searchPadding ?? EdgeInsets.symmetric(horizontal: tokens.gapSmall),
+            padding:
+                searchPadding ??
+                EdgeInsets.symmetric(horizontal: tokens.gapSmall),
             onChanged: onSearchChanged,
             trailing: searchTrailing,
             autofocus: searchAutofocus,
@@ -222,7 +221,8 @@ class AppScaffold extends StatelessWidget {
     }
     final actions = <Widget>[];
     final allowSearchAction = useSearchBar ? false : showDefaultSearchAction;
-    final allowSettingsAction = useSearchBar ? false : showDefaultSettingsAction;
+    final allowSettingsAction =
+        useSearchBar ? false : showDefaultSettingsAction;
 
     if (allowSearchAction) {
       actions.add(

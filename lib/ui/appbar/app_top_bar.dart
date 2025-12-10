@@ -18,8 +18,13 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AppBar(
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: theme.textTheme.titleMedium?.fontSize),
+      ),
       centerTitle: centerTitle,
       leading: leading,
       actions: actions,

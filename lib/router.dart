@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_base_app/features/component/component_screen.dart';
+import 'package:flutter_riverpod_base_app/features/settings/open_source_license_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -63,6 +64,11 @@ GoRouter goRouter(GoRouterRef ref) {
         path: AppRoutes.notification,
         name: 'notification',
         builder: (context, state) => const NotificationScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.openSourceLicense,
+        name: 'open-source-license',
+        builder: (context, state) => const OpenSourceLicenseScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,

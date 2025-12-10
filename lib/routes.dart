@@ -15,4 +15,5 @@ class AppRoutes {
   static const setting = '/setting';
   static const theme = '/setting/theme';
   static const notification = '/setting/notification';
+  static const openSourceLicense = '/setting/open-source-license';
 }
