@@ -59,7 +59,64 @@ class ProfileScreen extends StatelessWidget {
           ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 4),
             leading: Text(
-              '영문 이름',
+              '영문이름',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('OOO'),
+                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
+              ],
+            ),
+            onTap: () {},
+          ),
+
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 4),
+            leading: Text(
+              '생년월일',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('OOO'),
+                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
+              ],
+            ),
+            onTap: () {},
+          ),
+
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 4),
+            leading: Text(
+              '휴대폰 번호',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('OOO'),
+                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
+              ],
+            ),
+            onTap: () {},
+          ),
+
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 4),
+            leading: Text(
+              '이메일 주소',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
