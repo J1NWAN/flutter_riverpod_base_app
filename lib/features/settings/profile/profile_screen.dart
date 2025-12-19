@@ -17,121 +17,143 @@ class ProfileScreen extends StatelessWidget {
       showDefaultSearchAction: false,
       showDefaultSettingsAction: false,
       onDestinationSelected: (_) {},
-      child: ListView(
-        children: [
-          Column(
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(41, 43, 47, 1),
-                  borderRadius: BorderRadius.circular(90),
+      maxContentWidth: 720,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(41, 43, 47, 1),
+                    borderRadius: BorderRadius.circular(90),
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                    size: 60,
+                  ),
                 ),
-                child: const Icon(
-                  Icons.person,
-                  color: Color.fromRGBO(79, 85, 93, 1),
-                  size: 60,
+              ],
+            ),
+            const SizedBox(height: 12),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 4),
+              leading: Text(
+                '이름',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Text(
-              '이름',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OOO'),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                  ),
+                ],
               ),
+              onTap: () {},
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('OOO'),
-                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
-              ],
-            ),
-            onTap: () {},
-          ),
 
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Text(
-              '영문이름',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 4),
+              leading: Text(
+                '영문이름',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OOO'),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                  ),
+                ],
+              ),
+              onTap: () {},
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('OOO'),
-                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
-              ],
-            ),
-            onTap: () {},
-          ),
 
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Text(
-              '생년월일',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 4),
+              leading: Text(
+                '생년월일',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OOO'),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                  ),
+                ],
+              ),
+              onTap: () {},
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('OOO'),
-                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
-              ],
-            ),
-            onTap: () {},
-          ),
 
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Text(
-              '휴대폰 번호',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 4),
+              leading: Text(
+                '휴대폰 번호',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OOO'),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                  ),
+                ],
+              ),
+              onTap: () {},
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('OOO'),
-                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
-              ],
-            ),
-            onTap: () {},
-          ),
 
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Text(
-              '이메일 주소',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 4),
+              leading: Text(
+                '이메일 주소',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('OOO'),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Color.fromRGBO(79, 85, 93, 1),
+                  ),
+                ],
+              ),
+              onTap: () {},
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('OOO'),
-                Icon(Icons.chevron_right, color: Color.fromRGBO(79, 85, 93, 1)),
-              ],
-            ),
-            onTap: () {},
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
